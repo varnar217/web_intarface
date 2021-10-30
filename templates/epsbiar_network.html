@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html  lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+
+    <title>form glavn string for generate </title>
+
+    <!-- Bootstraps Java Scipts Links -->
+
+    <!-- Bootstraps Java Scipts Links -->
+		<link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+		<link href="{{ url_for('static', filename='css/opove.css') }}" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+   <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+
+	<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery.slim.min.js') }}"></script>
+
+   <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+
+  <!--  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>-->
+
+
+
+    <!-- JQuery links  -->
+   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+
+<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery-3.5.1.js') }}"></script>
+
+
+    <!--High CHART LIVE  -->
+<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery-3.5.1.js') }}"></script>
+
+   <!-- <script src="http://code.highcharts.com/highcharts.js"></script>-->
+<script type="text/javascript" src="{{ url_for('static', filename='libs/highcharts-more.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='libs/highcharts-more.src.js') }}"></script>
+<style>
+body {background-color: LightCyan;}
+
+</style>
+    <!--<script src="http://code.highcharts.com/highcharts-more.js"></script>-->
+   <!-- <script src="http://code.highcharts.com/modules/exporting.js"></script>-->
+
+	<script type="text/javascript" src="{{ url_for('static', filename='libs/exporting.js') }}"></script>
+  {% if lang_bool %}
+     <form action="/lengrth_epsbiar_network" method = "POST">
+
+     <input  class= "myButton"  style= " float: lefth; padding: 16px; background-color: darkblue; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "English" />
+     </form>
+  {% else %}
+  <form action="/lengrth_epsbiar_network" method = "POST">
+
+     <input class= "myButton"  style="float: lefth; padding: 16px; background-color: darkblue; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "Русский" />
+  </form>
+  {% endif %}
+
+  {% if conect %}
+
+     <input  class= "myButton"  style= "  padding: 16px; background-color: green; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" value="Connect"   />
+  {% else %}
+
+     <input class= "myButton"  style=" padding: 16px; background-color: red; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" value="Disconnect" />
+  {% endif %}
+
+     <form method="POST" action='/back_3'>
+	 <p><button>{{punkt_menu[0]}}</button></p>
+	 </form>
+   {% if start_flag1 %}
+
+   <form method="POST" action='/izmen_network/new'>
+ <p><button>{{punkt_menu[1]}}</button></p>
+ {% endif %}
+ <input type="hidden" name="scenar_number234" value="{{network_number}}">
+
+<center>
+
+  	 <tr>
+         <td><h1>jitter </h1></td>
+  		  <td><label for="adres">timeup </label></td>
+  		  <td><input type="number" id="timeup_jitter" name="timeup_jitter" min="0" max="100000000" value="{{zagolovok[0]}}"></td>
+        <td><label for="adres">timedown </label></td>
+        <td><input type="number" id="timedown_jitter" name="timedown_jitter" min="0" max="100000000" value="{{zagolovok[1]}}"></td>
+        <td><label for="adres">value </label></td>
+        <td><input type="number" id="value_jitter" name="value_jitter" min="0" max="100000000" value="{{zagolovok[2]}}"></td>
+  	  </tr>
+      <tr>
+   		  <td><h1>burst </h1></td>
+        <td><label for="adres">timeup </label></td>
+        <td><input type="number" id="timeup_burst" name="timeup_burst" min="0" max="100000000" value="{{zagolovok[3]}}"></td>
+
+        <td><label for="adres">timedown </label></td>
+        <td><input type="number" id="timedown_burst" name="timedown_burst" min="0" max="100000000" value="{{zagolovok[4]}}"></td>
+
+   	  </tr>
+
+
+
+
+</center>
+{% if start_flag1 %}
+
+</form>
+ {% endif %}
+</head>
+</html>

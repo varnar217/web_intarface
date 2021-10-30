@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html  lang="en" dir="ltr">
+<head>
+
+
+<center>
+  <style>
+   select {
+    width: 200px;
+   }
+  </style>
+<tr>
+ {% for it  in number %}
+
+ <form method="POST" action='/eps/see/{{it}}'>
+	<td><p><input type = "submit" value = "{{it}}" /></p>
+	 </form> 
+
+
+	  
+	</td>
+
+
+{%endfor%}	
+</tr>
+
+
+
+
+
+
+</center>
+
+
+</head>
+</html>

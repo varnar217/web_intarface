@@ -1,0 +1,38 @@
+@import "bourbon";
+
+body { background-color: lightSlateGray}
+input[type="button"] {
+  display: block;
+  margin: 200px auto 0 auto;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: none;
+  border:none;
+  background-color: deepSkyBlue;
+  color: azure;
+  &:active, &:hover, &:focus {outline:0;}
+}
+
+.alert-box {
+  border-style: solid;
+  border-width: 1px;
+  display: block;
+  width: 100%;
+  font-weight: normal;
+  margin-bottom: 1.25rem;
+  position: absolute;
+  top: 0;
+  padding: 0.875rem 1.5rem 0.875rem 0.875rem;
+  font-size: 0.8125rem;
+  background-color: #008cba;
+  border-color: #0078a0;
+  color: white;
+  box-shadow: 0px 1px 5px 0 darkslategrey;
+}
+.alert-box.success {
+  background-color: #43ac6a;
+  border-color: #3a945b;
+  color: white;
+  text-align: center;
+  font-size: 20px;
+}

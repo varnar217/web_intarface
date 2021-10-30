@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html  lang="en" dir="ltr">
+
+    <!-- Checkboxradio -->
+<head>
+	<meta charset="utf-8">
+	<title>Store</title>
+
+<style>
+body {background-color: LightCyan;}
+
+</style>
+</head>
+
+<body>
+	<center>
+		<p>
+			<thead>
+			<link rel="stylesheet" href="style.css">
+
+				<tr>
+					<th style="text-align: center;">Generator</th>
+				</tr>
+			</thead>
+
+			<tbody>
+			 <form method="POST" action='/'>
+			 	<p><input type = "submit" value = "connect" /></p>
+				<tr>
+					<td style="border: 2px solid rgba(192, 192, 192, 0.5);">
+						<table id="table-tx" style="margin:20px;">
+						<tr>
+							<td><label style="text-align: center;" for="centralfreq">Address</label></td>
+
+							<td><input  id="centralfreq" name="uds"  value="127.0.0.1"></td>
+						</tr>
+						<tr>
+							<td><label for="ch_id">Port</label></td>
+							<td><input type="number" id="ch_id" name="port" min="0" max="1000000" value="8080"></td>
+
+						</tr>
+
+
+
+
+						<tr>
+							<td><label style="text-align: center;" for="centralfreq">Login</label></td>
+
+							<td><input  id="centralfreq" name="login" ></td>
+						</tr>
+						<tr>
+							<td><label for="ch_id">Password</label></td>
+							<td><input  type="password" id="ch_id" name="password" ></td>
+
+					</tr>
+
+
+					</td>
+
+				</tr>
+			    </form>
+			</tbody>
+			</p>
+		</table>
+	</center>
+</body>
+
+</html>

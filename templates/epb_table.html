@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html  lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+
+    <title>form glavn string for generate </title>
+
+    <!-- Bootstraps Java Scipts Links -->
+
+    <!-- Bootstraps Java Scipts Links -->
+		<link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+		<link href="{{ url_for('static', filename='css/opove.css') }}" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+   <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+
+	<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery.slim.min.js') }}"></script>
+
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/Chart.mi.js') }}"></script>
+
+<style>
+body {background-color: LightCyan;}
+   table {
+    width: 100%; /* Ширина таблицы */
+    border-collapse: collapse; /* Убираем двойные линии между ячейками */
+   }
+   td, th {
+    padding: 3px; /* Поля вокруг содержимого таблицы */
+    border: 1px solid #000; /* Параметры рамки */
+   }
+   th {
+    background: #afd792; /* Цвет фона */
+    color: #333;  /* Цвет текста */
+   }
+   tbody tr:hover {
+    background: #0000FF; /* Цвет фона при наведении */
+    color: #000000; /* Цвет текста при наведении */
+   }
+
+ input {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+form
+{
+    float:left;
+}
+/* Кнопка, используемая для открытия контактной формы-фиксируется в нижней части страницы */
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+}
+
+/* Всплывающая форма-скрыта по умолчанию */
+.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+}
+
+/* Добавление стилей в контейнер форм */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Поля ввода полной ширины */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* Когда входы получают фокус, сделайте что-нибудь */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Установите стиль для кнопки отправить/кнопка */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Добавьте красный цвет фона к кнопке отмена */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Добавьте некоторые эффекты наведения на кнопки */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+</style>
+
+<input type = "number" value ={{time_otvet}} >
+
+     <form method="POST" action='/back_1'>
+	 <p><button>{{punkt_menu[6]}}</button></p>
+
+	 </form>
+
+{% if lang_bool %}
+   <form action="/lengrth_epb_table" method = "POST">
+
+   <input  class= "myButton"  style= " float: lefth; padding: 16px; background-color: darkblue; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "English" />
+   </form>
+{% else %}
+<form action="/lengrth_epb_table" method = "POST">
+
+   <input class= "myButton"  style="float: lefth; padding: 16px; background-color: darkblue; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "Русский" />
+</form>
+{% endif %}
+
+{% if conect %}
+
+   <input  class= "myButton"  style= "  padding: 16px; background-color: green; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" value="Connect"   />
+{% else %}
+
+   <input class= "myButton"  style=" padding: 16px; background-color: red; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" value="Disconnect" />
+{% endif %}
+
+<center>
+  <label for="velocity">{{punkt_menu[0]}}</label>
+  <input name="velocity" type="number" id="velocity" name="velocity" min="{{summer_velocity}}" max="{{summer_velocity}}" value="{{summer_velocity}}">
+  <form method="POST" action='/eb/add'>
+    <p><button>+</button></p>
+
+ </form>
+
+
+</center>
+
+<center>
+
+<table id="table-tx" width="250" >
+  <td bgcolor="#FFFFFF">id</th>
+  <td bgcolor="#FFFFFF">{{punkt_menu[1]}}
+  <td bgcolor="#FFFFFF">{{punkt_menu[2]}}
+    <td bgcolor="#FFFFFF">{{punkt_menu[3]}}
+    <td bgcolor="#FFFFFF">{{punkt_menu[4]}}
+      <td bgcolor="#FFFFFF">{{punkt_menu[5]}}
+
+  </th>
+  {%for  i  in buferr%}
+
+  <tr>
+    <td >{{i.key}}</td>
+        <td > <p><input  type = "submit" value = "{{i.veloc}}" name="{{i.key}}" /></p></td>
+        <form method="POST" action='/eb/nastroit/{{i.key}}'>
+
+        <td ><select name="scenar" >
+              {%for  j  in scenar_lister%}
+              {% if j.indef == i.status %}
+              <option name="scenar"  value='{{j.indef}}' selected='selected'>{{j.name}}</option>
+              {% else %}
+                   <option name="scenar"  value="{{ j.indef }}" >{{ j.name }}</option>
+               {% endif %}
+            {%endfor%}
+         </select></td>
+
+         <td ><select name="network">
+               {%for  j  in bufer_network%}
+               {% if j.indef == i.status_nt %}
+               <option name="network" value='{{j.indef}}' selected='selected'>{{j.name}}</option>
+               {% else %}
+                    <option name="network" value="{{ j.indef }}" >{{ j.name }}</option>
+                {% endif %}
+             {%endfor%}
+          </select></td>
+
+
+               <td > <p><input  type = "submit" value = "{{punkt_menu[4]}}" name="{{i.key}}" /></p></td>
+                  </form>
+           <form method="POST" action='/eb/delete/{{i.key}}'>
+
+                <td > <p><input  type = "submit" value = "{{punkt_menu[5]}}" name="{{i.key}}" /></p></td>
+                    </form>
+
+  </tr>
+      {%endfor%}
+
+
+   </table>
+
+</center>
+
+
+
+<button class="open-button" onclick="openForm()">+</button>
+</center>
+
+<div class="form-popup" id="myForm">
+  <form   method="POST" action='/muni_epb/add' class="form-container">
+    <h1>{{punkt_menu[3]}}Change EPS_BIAR</h1>
+
+    <label for="email"><b>{{punkt_menu[4]}}</b></label>
+    <input color=" blue" type="number" name="colich" required>
+    <label for="name_sce"><b>{{punkt_menu[2]}}</b></label>
+
+        {%for  i  in iter_nacha%}
+           <select name="scenar" >
+              {%for  j  in scenar_lister%}
+              {% if j.indef == i %}
+              <option name="scenar"  value='{{j.indef}}' selected='selected'>{{j.name}}</option>
+              {% else %}
+                   <option name="scenar"  value="{{ j.indef }}" >{{ j.name }}</option>
+               {% endif %}
+            {%endfor%}
+         </select>
+         <label for="name_sce"><b>{{punkt_menu[3]}}</b></label>
+
+         <select name="network">
+               {%for  j  in bufer_network%}
+               {% if j.indef == i %}
+               <option name="network" value='{{j.indef}}' selected='selected'>{{j.name}}</option>
+               {% else %}
+                    <option name="network" value="{{ j.indef }}" >{{ j.name }}</option>
+                {% endif %}
+             {%endfor%}
+          </select>
+
+    {%endfor%}
+    <p><input  type = "submit" value = "Change" name="Change" /></p>
+    <button type="button"  onclick="closeForm()">{{punkt_menu[5]}}</button>
+  </form>
+</div>
+
+
+
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+
+
+
+
+
+ </form>
+
+
+</html>

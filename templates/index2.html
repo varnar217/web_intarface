@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html  lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+
+    <title>form glavn string for generate </title>
+
+<!-- Bootstraps Java Scipts Links -->
+	
+    <!-- Bootstraps Java Scipts Links -->
+		<link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+		<link href="{{ url_for('static', filename='css/opove.css') }}" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+   <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+	  
+	<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery.slim.min.js') }}"></script>
+
+   <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+
+  <!--  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>-->
+
+
+
+    <!-- JQuery links  -->
+   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+	
+<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery-3.5.1.js') }}"></script>
+
+
+    <!--High CHART LIVE  -->
+<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery-3.5.1.js') }}"></script>
+	
+   <!-- <script src="http://code.highcharts.com/highcharts.js"></script>-->
+<script type="text/javascript" src="{{ url_for('static', filename='libs/highcharts-more.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='libs/highcharts-more.src.js') }}"></script>
+
+    <!--<script src="http://code.highcharts.com/highcharts-more.js"></script>-->
+   <!-- <script src="http://code.highcharts.com/modules/exporting.js"></script>-->
+	
+	<script type="text/javascript" src="{{ url_for('static', filename='libs/exporting.js') }}"></script>
+  
+
+
+<!--<div class="my-moon"></div>
+  <div class="notification-box">
+    <span class="notification-count">6</span>
+    <div class="notification-bell">
+      <span class="bell-top"></span>
+      <span class="bell-middle"></span>
+      <span class="bell-bottom"></span>
+      <span class="bell-rad"></span>
+    </div>
+  </div>-->
+  
+
+
+  <form method="POST" action='/pered'>
+
+
+	<p><input type = "submit" value = "соединить" /></p>
+  
+
+
+<!--<form action="/verify" method = "POST">
+    <p>EPS_BIAR <input type = "text" name = "name" /></p>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>-->
+
+
+
+<!--<form action="/data" method = "POST">
+    <p>Name <input type = "text" name = "Name" /></p>
+    <p>City <input type = "text" name = "City" /></p>
+    <p>Country <input type = "text" name = "Country" /></p>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>-->
+
+
+
+<tr>
+	<td><label for="centralfreq">Режим работы</label></td>
+
+	<td><input type="text" id="1" name="rab1" ><br></td>
+
+	
+</tr>
+
+
+
+<tr>
+	<td><label for="centralfreq">Суммарный битрейт </label></td>
+
+	<td><input type="text" id="2" name="rab2" ><br></td>
+
+	
+</tr>
+
+<tr>
+	<td><label for="centralfreq">Адрес Источника GTP </label></td>
+
+	<td><input type="text" id="rab3" name="rab3" ><br></td>
+
+	
+</tr>
+<tr>
+	<td><label for="centralfreq">Адрес Получателя GTP </label></td>
+
+	<td><input type="text" id="4" name="rab4" ><br></td>
+
+	
+</tr>
+
+<tr>
+	<td><label for="centralfreq">Диапозон значений TEID GTP </label></td>
+
+	<td><input type="text" id="5" name="rab5" ><br></td>
+	<td><input type="text" id="6" name="rab6" ><br></td>
+
+	
+</tr>
+
+<tr>
+	<td><label for="centralfreq">Путь к файлу </label></td>
+
+	<td><input type="text" id="7" name="rab7" ><br></td>
+
+
+	
+</tr>
+
+	</form>
+
+
+
+
+
+
+</head>
+
+
+
+</html>

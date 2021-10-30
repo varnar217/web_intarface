@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html  lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+
+    <title>Flask App </title>
+
+    <!-- Bootstraps Java Scipts Links -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+
+		<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/opove.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/Chart.min.css') }}" rel="stylesheet">
+
+	<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery.slim.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" rel="stylesheet">
+    <!-- JQuery links  -->
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/jquery.slim.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/jquery.min.js') }}"></script>
+
+
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/chart.min.js') }}"></script>
+
+
+
+    <!--High CHART LIVE  -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/highcharts.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/highcharts-more.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/offline-exporting.js') }}"></script>
+
+    <!--Gauge  -->
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/neon.js') }}"></script>
+
+</head>
+
+<body>
+  <div class="container">
+      <div class="row">
+          <div class="col-12">
+              <div class="card">
+                  <div class="card-body">
+                      <canvas id="canvas"></canvas>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+    <!--<div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-5 jumbotron p-2 mx-1">
+                <h1 class="sensor1"> Sensor : </h1>
+            </div>
+            <br>
+
+
+            <br>
+
+
+
+        </div>
+    </div>-->
+
+<style>
+.block {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+}
+changeButton(button) {
+    button.innerText = "Post";
+  }
+        .jumbotron{
+            widows: 150px;
+            height: 220px;
+            justify-content: center;
+        }
+
+        .row{
+            justify-content: center;
+        }
+
+
+body {background-color: LightCyan;}
+
+ul.spisok_ver1{
+margin: 3px;
+padding: 3px;
+}
+.outer {
+  text-align: center;
+  border: 1px solid blue;
+}
+    </style>
+    <!--<ul class="menu-top">
+    	<li>Пункт 1</li>
+    	<li>Пункт 2</li>
+    	<li>Пункт 3</li>
+    </ul>-->
+ {% if start_flag %}
+    <form action="/start" method = "POST">
+
+        <p><input  style="padding: 16px; background-color: darkblue; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "start" /></p>
+    </form>
+ {% else %}
+ <form action="/start" method = "POST">
+
+     <p><input  style="padding: 16px; background-color: darkblue; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "stop" /></p>
+ </form>
+ {% endif %}
+ <select class="dropdown" id="dd">
+     <option value="" selected="selected">Choise type</option>
+     <option value="dps1" >Velocity</option>
+     <option value="dps2">Procent</option>
+
+ </select>
+
+
+ <form method="POST" action='/Menu'>
+
+
+ <p><input type = "submit" value = "Menu" /></p>
+
+ </form>
+ <form method="POST" action='/scenar'>
+
+ <p><input type = "submit" value = "List custom script" /></p>
+
+ </form>
+ <form method="POST" action='/scenar_network'>
+
+ <p><input type = "submit" value = "List network_scenario" /></p>
+
+ </form>
+ <center>
+   <form method="POST" class="form-inline" action='/chart-data'>
+     <div class="form-group">
+       <div class="input-group">
+           <span class="input-group-addon">Please select</span>
+               <select name="comp_select" class="selectpicker form-control">
+                 {% for o in data %}
+                 <option value="{{ o.name }}" >{{ o.name }}</option>
+                 {% endfor %}
+               </select>
+       </div>
+     <p><input type = "submit" value = "Go" /></p>
+     </div>
+   </form>
+ </center>
+
+      <br>
+      <br>
+    <div class="container-fluid">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="container-fluid" id="data-temperature">
+
+            </div>
+        </div>
+    </div>
+<br>
+<br>
+<br>
+<!-- Example row of columns -->
+
+      <!-- <div class="container-fluid">
+        <div class="row">
+            <div class="container-fluid" id="data-humidity">
+              <div class="col-5 jumbotron p-2 mx-1">
+                  <h1 class="sensor1"> </h1>
+              </div>
+            </div>
+        </div>
+    </div>-->
+
+
+    <script>
+    var chartTemperatue;
+    var chartHumidity;
+    var chart_labels = ['znach1', 'znach2'];
+
+
+    $(".dropdown").change(function() {
+      var x = document.getElementById("dd").value;
+
+    if(x == "dps1"){
+
+              function requestData()
+              {
+                  // Ajax call to get the Data from Flask
+                  var requests = $.get('/data');
+
+                  var tm = requests.done(function (result)
+                  {
+                      // Temperature
+                      var seriesTemperature = chartTemperatue.series[0],
+                          shiftTemperature = seriesTemperature.data.length > 20;
+
+                      // Humidity
+
+
+                      // Add the Point
+                      // Time Temperature\
+                      var data1 = [];
+                      data1.push(result[0]);
+                      data1.push(result[1]);
+
+
+                      // Add the Point
+                      // Time Humidity
+
+
+                      chartTemperatue.series[0].addPoint(data1, true, shiftTemperature);
+
+                      //$(".sensor1").text("");
+                    //  $(".sensor1").text("Velocity : " +  Math.round(data1[1]) );
+
+
+
+
+                      // call it again after one second
+                      setTimeout(requestData, 2000);
+
+                  });
+              }
+
+              $(document).ready(function()
+              {
+                  // --------------Chart 1 ----------------------------
+
+                  chartTemperatue = new Highcharts.Chart({
+                      chart:
+                          {
+                          renderTo: 'data-temperature',
+                          defaultSeriesType: 'area',
+                          events: {
+                              load: requestData
+                                  }
+                          },
+                      title:
+                          {
+                          text: 'Velocity'
+                          },
+                      xAxis: {
+                          type: 'datetime',
+                          tickPixelInterval: 150,
+                          maxZoom: 20 * 1000
+                              },
+                      yAxis: {
+                          minPadding: 0.2,
+                          maxPadding: 0.2,
+                          title: {
+                              text: 'Value',
+                              margin: 80
+                                  }
+                               },
+                      series: [{
+                          color : '#c23d23',
+                          lineColor: '#303030',
+                          name: 'Velocity',
+                          data: []
+                      }]
+                  });
+                  // --------------Chart 1 Ends - -----------------
+
+
+
+
+              });
+
+      }
+      else{
+
+      function requestData()
+      {
+          // Ajax call to get the Data from Flask
+          var requests = $.get('/data');
+
+          var tm = requests.done(function (result)
+          {
+              // Temperature
+              var seriesTemperature = chartTemperatue.series[0],
+                  shiftTemperature = seriesTemperature.data.length > 20;
+
+              // Humidity
+
+
+              // Add the Point
+              // Time Temperature\
+              var data1 = [];
+              data1.push(result[0]);
+              data1.push(result[2]);
+
+
+              // Add the Point
+              // Time Humidity
+
+
+              chartTemperatue.series[0].addPoint(data1, true, shiftTemperature);
+
+              //$(".sensor1").text("");
+              //$(".sensor1").text("Procent : " +  Math.round(data1[1]) );
+
+
+
+
+              // call it again after one second
+              setTimeout(requestData, 2000);
+
+          });
+      }
+
+      $(document).ready(function()
+      {
+          // --------------Chart 1 ----------------------------
+
+          chartTemperatue = new Highcharts.Chart({
+              chart:
+                  {
+                  renderTo: 'data-temperature',
+                  defaultSeriesType: 'area',
+                  events: {
+                      load: requestData
+                          }
+                  },
+              title:
+                  {
+                  text: 'Procent'
+                  },
+              xAxis: {
+                  type: 'datetime',
+                  tickPixelInterval: 150,
+                  maxZoom: 20 * 1000
+                      },
+              yAxis: {
+                  minPadding: 0.2,
+                  maxPadding: 0.2,
+                  title: {
+                      text: 'Value',
+                      margin: 80
+                          }
+                       },
+              series: [{
+                  color : '#c23d23',
+                  lineColor: '#303030',
+                  name: 'Procent',
+                  data: []
+              }]
+          });
+          // --------------Chart 1 Ends - -----------------
+
+
+
+
+      });
+
+}
+
+
+});
+
+          </script>
+
+
+
+</body>
+
+
+</html>

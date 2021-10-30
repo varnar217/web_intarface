@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html  lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+
+    <title>form glavn string for generate </title>
+
+    <!-- Bootstraps Java Scipts Links -->
+
+    <!-- Bootstraps Java Scipts Links -->
+		<link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+		<link href="{{ url_for('static', filename='css/opove.css') }}" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+   <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+
+	<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery.slim.min.js') }}"></script>
+
+   <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+
+  <!--  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>-->
+
+
+
+    <!-- JQuery links  -->
+   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+
+<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery-3.5.1.js') }}"></script>
+
+
+    <!--High CHART LIVE  -->
+<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery-3.5.1.js') }}"></script>
+
+   <!-- <script src="http://code.highcharts.com/highcharts.js"></script>-->
+<script type="text/javascript" src="{{ url_for('static', filename='libs/highcharts-more.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='libs/highcharts-more.src.js') }}"></script>
+<style>
+body {background-color: LightCyan;}
+   table {
+    width: 100%; /* Ширина таблицы */
+    border-collapse: collapse; /* Убираем двойные линии между ячейками */
+   }
+   td, th {
+    padding: 3px; /* Поля вокруг содержимого таблицы */
+    border: 1px solid #000; /* Параметры рамки */
+   }
+   th {
+    background: #afd792; /* Цвет фона */
+    color: #333;  /* Цвет текста */
+   }
+   tbody tr:hover {
+    background: #0000FF; /* Цвет фона при наведении */
+    color: #000000; /* Цвет текста при наведении */
+   }
+
+ input {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+
+</style>
+
+    <!--<script src="http://code.highcharts.com/highcharts-more.js"></script>-->
+   <!-- <script src="http://code.highcharts.com/modules/exporting.js"></script>-->
+<center>
+
+
+
+<table id="table-tx" width="350" >
+<td bgcolor="#FFFFFF">Видео
+<td bgcolor="#FFFFFF">файл
+  <td bgcolor="#FFFFFF">Битрейт
+  <td bgcolor="#FFFFFF">Удалить
+
+</th>
+{%for  i  in pcap_spis%}
+   {%for  j  in pcap_id%}
+         {% if j.znach == i.key %}
+     <tr id="i.key"><select name="scenar" >
+
+             <td> <option name="scenar"  value='{{i.key}}' selected='selected'>{{i.video}}</option </td>
+             <td> <option name="scenar"  value='{{i.key}}' selected='selected'>{{i.path}}</option </td>
+               <td> <option name="scenar"  value='{{i.key}}' selected='selected'>{{i.br_v}}</option </td>
+              {% else %}
+              <td> <option name="scenar"  value='{{i.key}}' >{{i.video}}</option </td>
+              <td> <option name="scenar"  value='{{i.key}}' >{{i.path}}</option </td>
+                <td> <option name="scenar"  value='{{i.key}}' >{{i.br_v}}</option </td>
+                {% endif %}
+            </select>  </tr>
+               {%endfor%}
+           {%endfor%}
+
+
+      </table>
+
+    </center>
+
+
+
+</head>
+</html>

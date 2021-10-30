@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html  lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+
+    <title>form glavn string for generate </title>
+
+    <!-- Bootstraps Java Scipts Links -->
+	
+    <!-- Bootstraps Java Scipts Links -->
+		<link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+		<link href="{{ url_for('static', filename='css/opove.css') }}" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+   <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+	  
+	<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery.slim.min.js') }}"></script>
+
+   
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/Chart.mi.js') }}"></script>
+
+<style>
+body {background-color: LightCyan;}
+
+</style>
+
+<!--<div class="my-moon"></div>
+  <div class="notification-box">
+    <span class="notification-count">6</span>
+    <div class="notification-bell">
+      <span class="bell-top"></span>
+      <span class="bell-middle"></span>
+      <span class="bell-bottom"></span>
+      <span class="bell-rad"></span>
+    </div>
+  </div>-->
+  
+	<section>
+  <div class="square_box box_three"></div>
+  <div class="col-xs-12 col-sm-6 col-sm-offset-3"></div>
+  <div class="container mt-5">
+    <div class="row">
+ {% if param %}
+      <div class="col-sm-12">
+        <div class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
+          <button type="button" class="close font__size-18" data-dismiss="alert">
+									<span aria-hidden="true"><a>
+                    <i class="fa fa-times greencross"></i>
+                    </a></span>
+									<span class="sr-only">Close</span> 
+								</button>
+          <i class="start-icon far fa-check-circle faa-tada animated"></i>
+          <strong class="font__weight-semibold">Well done!</strong> You  contact.
+        </div>
+      </div>
+
+ {% else %}
+
+      <div class="col-sm-12">
+        <div class="alert fade alert-simple alert-danger alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
+          <button type="button" class="close font__size-18" data-dismiss="alert">
+									<span aria-hidden="true">
+										<i class="fa fa-times danger "></i>
+									</span>
+									<span class="sr-only">Close</span>
+								</button>
+          <i class="start-icon far fa-times-circle faa-pulse animated"></i>
+          <strong class="font__weight-semibold">Error!</strong>dont contact.
+        </div>
+      </div>
+
+ {% endif %}
+
+    </div>
+  </div>
+</section>
+  <form method="POST" action='/chaeps'>
+
+
+	<p><input type = "submit" value = "EPS_BIAR" /></p>
+	
+  </form>
+
+  <form method="POST" action='/scenar'>
+
+
+	<p><input type = "submit" value = "сценарий" /></p>
+	
+  </form>
+  
+  <form method="POST" action='/spis_epb'>
+
+
+	<p><input type = "submit" value = "далее" /></p>
+	
+  </form>
+  
+  <form method="POST" action='/send_upd'>
+
+
+	<p><input type = "submit" value = "обновить" /></p>  
+
+<center>
+
+
+
+<td style="border: 2px solid rgba(192, 192, 192, 0.5);">
+<table id="table-tx" style="margin:20px;">
+
+	
+
+<tr>
+	<td><label for="centralfreq">Режим работы</label></td>
+	  <td><select name="user_profile_color_2" required="required">
+	 
+	  
+	  {%for i in rabota_status%}
+	    <option value= "{{i}}" SELECTED>{{i}}</option>	
+      {%endfor%}
+	  <tr>
+		  <td><label for="velocity">Суммарный битрейт (Мбит/сек)</label></td>
+		  <td><input type="number" id="velocity" name="velocity" min="0" max="100000000" value="{{zagolovok[0]}}"></td>
+	  </tr>	
+	  
+      <tr>    
+	  <td><p>
+
+	  <input type="checkbox"   name="GTP" {% if zagolovok[1]==1 %}checked{% else %}{% endif %}>GTP
+
+	 
+      </p></td>
+      </tr>	
+	
+	  <tr>
+		  <td><label for="adres">Адрес источника GTP</label></td>
+		  <td><input  id="adres_ist" name="adres_ist"  value="{{zagolovok[2]}}"></td>
+	  </tr>	
+	  
+	  <tr>
+		  <td><label for="adres_naz">Адрес назначения GTP</label></td>
+		  <td><input  id="adres_naz" name="adres_naz"  value="{{zagolovok[3]}}"></td>
+	  </tr>	
+	  
+	  <tr>
+		  <td><label for="adres">Диапазон значения TEID GTP</label></td>
+		  <td><input type="TEID"  id="TEID" name="TEID"  min="0" max="100000000" value="{{zagolovok[4]}}"><input type="number"  id="TEID2" name="TEID2"  min="0" max="100000000" value="{{zagolovok[5]}}">  </td>
+	  </tr>
+	  
+	  <tr>
+		  <td><label for="adres">Путь к файлам pcap</label></td>
+		  <td><input  id="pcap_adr" name="pcap_adr"  value="{{zagolovok[6]}}"></td>
+	  </tr>
+	  
+	 <tr>
+		  <td><label for="adres">Размер файла Мбит </label></td>
+		  <td><input  id="razm_mb" name="razm_mb"  value="{{zagolovok[7]}}"></td>
+	  </tr>  
+	  
+		 <tr>
+		  <td><label for="adres">Количество EPS-Bearer </label></td>
+		  <td><input  type="number" id="number_EPS" name="number_EPS" min="0" max="200" value="{{zagolovok[8]}}"></td>
+	  </tr>  
+	  
+      </select></td>
+
+	
+</tr>	
+  </form>
+
+   </table>
+ </td>
+
+
+	
+<body>
+
+    <canvas id="chart" width="600" height="400"></canvas>
+    <script type="text/javascript">
+	 function getRandomColor() {
+	var letters = '0123456789ABCDEF'.split('');
+	var color = '#';
+	for (var i = 0; i < 6; i++ ) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+		}
+      var pieData = [
+        {% for item, label  in set %}
+          {
+            value: {{item}},
+            label: "{{label}}",
+			color : getRandomColor()
+
+          },
+        {% endfor %}
+      ];
+
+      // get bar chart canvas
+      var mychart = document.getElementById("chart").getContext("2d");
+      //steps = 10
+
+      // draw pie chart
+      new Chart(document.getElementById("chart").getContext("2d") ).Pie(pieData);
+
+    </script>
+	
+</body>
+	
+
+
+
+
+</head>
+<form action="/verify" method = "POST">
+
+    <p><input type = "submit" value = "отобразить график" /></p>
+</form>
+
+</center>
+
+
+
+</html>

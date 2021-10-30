@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html  lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+
+    <title>form glavn string for generate </title>
+
+    <!-- Bootstraps Java Scipts Links -->
+
+    <!-- Bootstraps Java Scipts Links -->
+		<link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+		<link href="{{ url_for('static', filename='css/opove.css') }}" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+   <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+
+	<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery.slim.min.js') }}"></script>
+
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/Chart.mi.js') }}"></script>
+
+<style>
+body {background-color: LightCyan;}
+
+</style>
+
+<!--<div class="my-moon"></div>
+  <div class="notification-box">
+    <span class="notification-count">6</span>
+    <div class="notification-bell">
+      <span class="bell-top"></span>
+      <span class="bell-middle"></span>
+      <span class="bell-bottom"></span>
+      <span class="bell-rad"></span>
+    </div>
+  </div>-->
+
+
+
+  {% if lang_switch %}
+     <form action="/lengrth_form" method = "POST">
+
+     <input  class= "myButton"  style= " float: lefth; padding: 16px; background-color: darkblue; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "English" />
+     </form>
+  {% else %}
+  <form action="/lengrth_form" method = "POST">
+
+     <input class= "myButton"  style="float: lefth; padding: 16px; background-color: darkblue; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "Русский" />
+  </form>
+  {% endif %}
+  {% if conect %}
+
+     <input  class= "myButton"  style= "  padding: 16px; background-color: green; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" value="Connect"   />
+  {% else %}
+
+     <input class= "myButton"  style=" padding: 16px; background-color: red; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" value="Disconnect" />
+  {% endif %}
+
+
+  <input type = "number" value ={{time_otvet}} >
+
+
+
+  <form method="POST" action='/back'>
+
+  <p><input type = "submit" value = "{{punkt_menu[0]}}" /></p>
+
+  </form>
+
+
+    <form method="POST" action='/izmen1'>
+      {% if start_flag1 %}
+
+    <p><input type = "submit" value = "{{punkt_menu[1]}}" /></p>
+
+{% endif %}
+
+
+
+<center>
+
+
+
+<td style="border: 2px solid rgba(192, 192, 192, 0.5);">
+<table id="table-tx" style="margin:20px;">
+
+
+
+<tr>
+	<td><label for="centralfreq">{{punkt_menu[2]}}</label></td>
+	  <td><select  name="user_regim" required="required">
+
+	  {%for i in rabota_status%}
+    {% if regim_rabota_mode == i.key %}
+	    <option  value= "{{i.key}}" SELECTED>{{i.name}}</option>
+     {% else %}
+     <option  value= "{{i.key}}" >{{i.name}}</option>
+
+     {% endif %}
+
+      {%endfor%}
+	  <tr>
+		  <td><label for="velocity">{{punkt_menu[3]}}</label></td>
+		  <td><input name="velocity" type="number" id="velocity" name="velocity" min="0" max="10000000000" value="{{zagolovok[0]}}"></td>
+	  </tr>
+
+      <tr>
+	  <td><p>
+
+	  <input name="GTP2" type="checkbox"    {% if zagolovok[1]==1 %}checked{% else %}{% endif %}>GTP
+
+
+      </p></td>
+      </tr>
+
+	  <tr>
+		  <td><label for="adres">{{punkt_menu[4]}}</label></td>
+		  <td><input  id="adres_ist" name="adres_ist"  value="{{zagolovok[2]}}"></td>
+	  </tr>
+
+	  <tr>
+		  <td><label for="adres_naz">{{punkt_menu[5]}}</label></td>
+		  <td><input  id="adres_naz" name="adres_naz"  value="{{zagolovok[3]}}"></td>
+	  </tr>
+
+	  <tr>
+		  <td><label for="adres">{{punkt_menu[6]}}</label></td>
+		  <td><input type="TEID"  id="TEID" name="TEID"  min="0" max="100000000" value="{{zagolovok[4]}}"><input type="number"  id="TEID2" name="TEID2"  min="0" max="100000000" value="{{zagolovok[5]}}">  </td>
+	  </tr>
+
+	  <tr>
+		  <td><label for="adres">{{punkt_menu[7]}}</label></td>
+		  <td><input  id="pcap_adr" name="pcap_adr"  value="{{zagolovok[6]}}"></td>
+	  </tr>
+
+	 <tr>
+		  <td><label for="adres">{{punkt_menu[8]}} </label></td>
+		  <td><input  id="razm_mb" name="razm_mb"  value="{{zagolovok[7]}}"></td>
+	  </tr>
+
+
+
+      </select></td>
+
+
+</tr>
+  </form>
+
+   </table>
+ </td>
+
+
+
+
+
+
+
+
+</head>
+
+
+</center>
+
+</form>
+
+
+</html>

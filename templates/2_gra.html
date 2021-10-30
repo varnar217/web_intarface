@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html  lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+
+    <title>Flask App </title>
+
+    <!-- Bootstraps Java Scipts Links -->
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/popper.min.js') }}"></script>
+
+		<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+	<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery.slim.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='libs/bootstrap.min.js') }}"></script>
+
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+		<link href="{{ url_for('static', filename='css/opove.css') }}" rel="stylesheet">
+    <!-- JQuery links  -->
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/jquery.slim.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/jquery.min.js') }}"></script>
+
+
+
+
+
+    <!--High CHART LIVE  -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/highcharts.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/highcharts-more.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/offline-exporting.js') }}"></script>
+
+    <!--Gauge  -->
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/neon.js') }}"></script>
+
+</head>
+
+<body>
+
+
+    <!--<div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-5 jumbotron p-2 mx-1">
+                <h1 class="sensor1"> Sensor : </h1>
+            </div>
+            <br>
+
+
+            <br>
+
+
+
+        </div>
+    </div>-->
+
+<style>
+.myButton {
+
+    padding: 30px;
+    display:block;
+    float:left;
+    text-align:center;
+
+}
+
+.container.space-around {
+  justify-content: space-around;
+}
+.test{
+
+     float: left;
+}
+ ul.my_boks {
+  display: inline-block;	/* Располагаем элементы по горизонтали */
+  list-style: none;	/* Убираем маркеры списка */
+  padding: 5px;		/* Поля вокруг текста */
+        border: solid 1px #000000;
+        background-color: #fffff0;
+        width: 150px;
+        height: 40px;
+
+}
+ul.h {
+ padding-left: 0;
+ list-style: none;
+ font-size:0;
+ height:50px;
+
+
+}
+
+li.h {
+   display: inline-block;
+   outline:1px solid black;
+   margin-right:5px;
+   height:100%;
+   width:50px;
+}
+.wrap {
+  float: left; /*Задаем обтекание*/
+  line-height: 120px;/*Высота строки +  верт. центрирования текста*/
+  font-size: 40px;
+  width: 320px; /*Фиксируем ширину блока*/
+  margin-right: 10px;
+  text-align: center; /*Центрируем текст по горизонтали*/
+        }
+
+.block {
+   width: 100px;
+   height: 100px;
+   margin: 5px;
+}
+changeButton(button) {
+   button.innerText = "Post";
+ }
+       .jumbotron{
+           widows: 150px;
+           height: 220px;
+           justify-content: center;
+       }
+
+       .row{
+           justify-content: center;
+       }
+
+       form
+       {
+           float:left;
+       }
+body {background-color: LightCyan;}
+
+ul.spisok_ver1{
+margin: 3px;
+padding: 3px;
+}
+.outer {
+ text-align: center;
+ border: 1px solid blue;
+}
+    </style>
+    <input type = "number" value ={{time_otvet}} >
+
+    {% if lang_bool %}
+       <form action="/lengrth_2_gra" method = "POST">
+
+       <input  class= "myButton"  style= " float: lefth; padding: 16px; background-color: darkblue; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "English" />
+       </form>
+    {% else %}
+    <form action="/lengrth_2_gra" method = "POST">
+
+       <input class= "myButton"  style="float: lefth; padding: 16px; background-color: darkblue; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "Русский" />
+    </form>
+    {% endif %}
+
+    {% if conect %}
+
+       <input  class= "myButton"  style= "  padding: 16px; background-color: green; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" value="Connect"   />
+    {% else %}
+
+       <input class= "myButton"  style=" padding: 16px; background-color: red; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" value="Disconnect" />
+       <script>
+    setTimeout(function(){
+        window.location.href = '{{url_output}}';
+    }, 1000);
+</script>
+    {% endif %}
+    <div class="container-fluid">
+
+        <div class="row">
+
+                <h5 class="sensor1"> Sensor : </h5>
+            <br>
+
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="container-fluid" id="data-temperature">
+
+            </div>
+        </div>
+    </div>
+
+
+    <center>
+
+                  <select id = "epb" name="comp_select" class="dropdown">
+                    {% for o in data %}
+                    <option value="{{ o.name }}"  >{{ o.name2 }}</option>
+                    {% endfor %}
+                  </select>
+
+    </center>
+
+    <div class="test">
+
+     {% if start_flag %}
+        <form action="/start" method = "POST">
+
+        <input  class= "myButton"  style= " float: lefth; padding: 16px; background-color: green; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "{{punkt_menu[0]}}" />
+        </form>
+     {% else %}
+     <form action="/start" method = "POST">
+
+        <input class= "myButton"  style="float: lefth; padding: 16px; background-color: red; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "{{punkt_menu[1]}}" />
+     </form>
+     {% endif %}
+     <select class="dropdown" id="dd">
+
+         <option value="dps1"  >Bitrate</option>
+         <option value="dps2">Video-ratio</option>
+
+     </select>
+
+
+
+     <form method="POST" action='/Menu'>
+
+
+    <input type = "submit" value = "{{punkt_menu[2]}}" />
+
+     </form>
+     <form method="POST" action='/scenar'>
+
+      <p><input type = "submit" value = "{{punkt_menu[3]}}" />  </p>
+
+     </form>
+     <form method="POST" action='/LIST_EPS'>
+
+      <p><input type = "submit" value = "{{punkt_menu[4]}}" />  </p>
+
+     </form>
+     <form method="POST" action='/scenar_network'>
+
+      <p> <input type = "submit" value = "{{punkt_menu[5]}}" /></p>
+
+     </form>
+    </div>
+    <script>
+    var chartTemperatue;
+     var chartHumidity;
+     var chart_labels = ['znach1', 'znach2'];
+      var requests ;
+
+     $(".selectpicker form-control").change(function() {
+    var x1 = document.getElementById("epb").value;
+       var myString = x1 .toString();
+  joined = '/data/'+myString
+  requests = $.get(joined);
+     }) ;
+     $(".dropdown").change(function() {
+       var x = document.getElementById("dd").value;
+       var x1 = document.getElementById("epb").value;
+
+     if(x == "dps1"){
+
+
+               function requestData()
+               {
+                   // Ajax call to get the Data from Flask
+                   var myString = x1 .toString();
+                   var joined = '/data/'+myString
+                   var requests = $.get(joined);
+                  // var requests = $.get('/data/0');
+
+                   var tm = requests.done(function (result)
+                   {
+                       // Temperature
+                       var seriesTemperature = chartTemperatue.series[0],
+                           shiftTemperature = seriesTemperature.data.length > 20;
+
+                       // Humidity
+
+
+                       // Add the Point
+                       // Time Temperature\
+                       var data1 = [];
+                       data1.push(result[0]);
+                       data1.push(result[1]);
+                       data1.push(result[3]);
+
+
+                       // Add the Point
+                       // Time Humidity
+
+
+                       chartTemperatue.series[0].addPoint(data1, true, shiftTemperature);
+
+                       $(".sensor1").text("");
+                       $(".sensor1").text("Response time : " +  Math.round(data1[2]) );
+
+
+
+
+                       // call it again after one second
+                       setInterval(requestData, 2000);
+
+                   });
+               }
+
+               $(document).ready(function()
+               {
+                   // --------------Chart 1 ----------------------------
+
+                   chartTemperatue = new Highcharts.Chart({
+                       chart:
+                           {
+                           renderTo: 'data-temperature',
+                           defaultSeriesType: 'area',
+                           events: {
+                               load: requestData
+                                   }
+                           },
+                       title:
+                           {
+                           text: 'Bitrate'
+                           },
+                       xAxis: {
+                           type: 'datetime'
+                          // tickPixelInterval: 150
+                           //maxZoom: 20 * 1000
+                               },
+                       yAxis: {
+                          // minPadding: 0.2,
+                           //maxPadding: 0.2,
+                           title: {
+                               text: 'Mbit/sec'
+                               //margin: 80
+                                   }
+                                },
+                       series: [{
+                           color : '#c23d23',
+                           lineColor: '#303030',
+                           name: 'Bitrate',
+                           data: []
+                       }]
+                   });
+                   // --------------Chart 1 Ends - -----------------
+
+
+
+
+               });
+
+       }
+       if(x == "dps2"){
+
+       function requestData()
+       {
+
+         var myString = x1 .toString();
+         var joined = '/data/'+myString
+         var requests = $.get(joined);
+           // Ajax call to get the Data from Flask
+           //var requests = $.get('/data/0');
+
+           var tm = requests.done(function (result)
+           {
+               // Temperature
+               var seriesTemperature = chartTemperatue.series[0],
+                   shiftTemperature = seriesTemperature.data.length > 20;
+
+               // Humidity
+
+
+               // Add the Point
+               // Time Temperature\
+               var data1 = [];
+               data1.push(result[0]);
+               data1.push(result[2]);
+               data1.push(result[3]);
+
+
+               // Add the Point
+               // Time Humidity
+
+
+               chartTemperatue.series[0].addPoint(data1, true, shiftTemperature);
+
+               $(".sensor1").text("");
+               $(".sensor1").text("Response time : " +  Math.round(data1[2]) );
+
+
+
+            // call it again after one second
+               //setTimeout(requestData, 2000);
+               setInterval(requestData, 2000);
+
+           });
+       }
+
+       $(document).ready(function()
+       {
+           // --------------Chart 1 ----------------------------
+
+           chartTemperatue = new Highcharts.Chart({
+               chart:
+                   {
+                   renderTo: 'data-temperature',
+                   defaultSeriesType: 'area',
+                   events: {
+                       load: requestData
+                           }
+                   },
+               title:
+                   {
+                   text: 'Video-ratio '
+                   },
+               xAxis: {
+                   type: 'datetime'
+                  // tickPixelInterval: 150
+                   //maxZoom: 20 * 1000
+                       },
+               yAxis: {
+                  // minPadding: 0.2,
+                   //maxPadding: 0.2,
+                   title: {
+                       text: '%'
+                      // margin: 80
+                           }
+                        },
+               series: [{
+                   color : '#c23d23',
+                   lineColor: '#303030',
+                   name: 'Video-ratio',
+                   data: []
+               }]
+           });
+           // --------------Chart 1 Ends - -----------------
+
+
+
+
+       });
+
+}
+
+
+});
+
+
+    </script>
+
+
+
+
+
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html  lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+
+    <title>form glavn string for generate </title>
+
+    <!-- Bootstraps Java Scipts Links -->
+
+    <!-- Bootstraps Java Scipts Links -->
+		<link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+		<link href="{{ url_for('static', filename='css/opove.css') }}" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+   <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+
+	<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery.slim.min.js') }}"></script>
+
+   <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+
+  <!--  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>-->
+
+
+
+    <!-- JQuery links  -->
+   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+
+<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery-3.5.1.js') }}"></script>
+
+
+    <!--High CHART LIVE  -->
+<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery-3.5.1.js') }}"></script>
+
+   <!-- <script src="http://code.highcharts.com/highcharts.js"></script>-->
+<script type="text/javascript" src="{{ url_for('static', filename='libs/highcharts-more.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='libs/highcharts-more.src.js') }}"></script>
+<style>
+body {background-color: LightCyan;}
+table
+       {
+           float:left;
+
+       }
+</style>
+
+    <!--<script src="http://code.highcharts.com/highcharts-more.js"></script>-->
+   <!-- <script src="http://code.highcharts.com/modules/exporting.js"></script>-->
+   {% if lang_switch %}
+      <form action="/lengrth_epsbiar_scene" method = "POST">
+
+      <input  class= "myButton"  style= " float: lefth; padding: 16px; background-color: darkblue; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "English" />
+      </form>
+   {% else %}
+   <form action="/lengrth_epsbiar_scene" method = "POST">
+
+      <input class= "myButton"  style="float: lefth; padding: 16px; background-color: darkblue; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "Русский" />
+   </form>
+   {% endif %}
+
+   {% if conect %}
+
+      <input  class= "myButton"  style= "  padding: 16px; background-color: green; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" value="Connect"   />
+   {% else %}
+
+      <input class= "myButton"  style=" padding: 16px; background-color: red; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" value="Disconnect" />
+   {% endif %}
+
+
+	<script type="text/javascript" src="{{ url_for('static', filename='libs/exporting.js') }}"></script>
+       <input type = "number" value ={{time_otvet}} >
+  <form method="POST" action='/back_2'>
+
+	<p><input type = "submit" value = "{{punkt_menu[0]}}" /></p>
+
+  </form>
+
+  <form method="POST" action='/eps_scenar/add' style="float:left">
+ <p><input  type = "submit" value = "+" name="zhach" /></p>
+ <input type="hidden" name="scenar_number" value="{{scen_number}}">
+
+ </form>
+  {% if start_flag1 %}
+
+  <form method="POST" action='/izmen_scenari/new'>
+
+
+	<p><input type = "submit" value = "{{punkt_menu[1]}}" /></p>
+
+
+      {% endif %}
+      <input type="hidden" name="scenar_number234" value="{{scen_number}}">
+
+
+<center>
+<body>
+
+    <canvas id="chart" width="600" height="400"></canvas>
+    <script type="text/javascript">
+	 function getRandomColor() {
+	var letters = '0123456789ABCDEF'.split('');
+	var color = '#';
+	for (var i = 0; i < 6; i++ ) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+		}
+      var pieData = [
+        {% for item, label  in set %}
+          {
+            value: {{item}},
+            label: "{{label}}",
+			color : getRandomColor()
+
+          },
+        {% endfor %}
+      ];
+
+      // get bar chart canvas
+      var mychart = document.getElementById("chart").getContext("2d");
+      //steps = 10
+
+      // draw pie chart
+      new Chart(document.getElementById("chart").getContext("2d") ).Pie(pieData);
+/////////////////////
+
+
+
+///////////////////////////
+
+
+
+    </script>
+
+</body>
+
+
+
+
+
+</center>
+
+
+<table class="table table-striped" id="users">
+ <thead>
+ <th> {{punkt_menu[2]}} ,{{punkt_menu[3]}}  ,{{punkt_menu[4]}}  </th>
+
+ </thead>
+</table>
+
+ <table   style=  "float:left">
+   {%for  j  in pcap_id%}
+      <tr>
+
+        <tr>
+
+            <td><select name="scenar" style="width: 550px" required="required" >
+                  {%for  i  in string_pcap%}
+
+                  {% if j.znach == i.key %}
+                  <option  name="td1"  value='{{i.key}}' SELECTED>{{i.string}}</option>
+
+                  {% else %}
+                       <option name="td1"  value="{{ i.key }}" >{{ i.string}}</option>
+                   {% endif %}
+
+                {%endfor%}
+             </select></td>
+
+
+      </tr>
+
+          {%endfor%}
+
+       </table>
+       {% if start_flag1 %}
+
+     </form>
+     {% endif %}
+
+       <table   style=  "float:right">
+         {%for  j  in pcap_id%}
+
+            <tr>
+
+                 <form method="POST" action='/eps_scenar/delete/{{j.znach}}'>
+                   <input type="hidden" name="scenar_number" value="{{scen_number}}">
+
+                      <td > <p><input  type = "submit" value = "-" name="{{j.znach}}" /></p></td>
+                          </form>
+
+            </tr>
+
+
+                {%endfor%}
+
+
+             </table>
+
+
+</head>
+</html>

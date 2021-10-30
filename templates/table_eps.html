@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html  lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+
+    <title>form glavn string for generate </title>
+
+    <!-- Bootstraps Java Scipts Links -->
+	
+    <!-- Bootstraps Java Scipts Links -->
+		<link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+		<link href="{{ url_for('static', filename='css/opove.css') }}" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+   <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+	  
+	<script type="text/javascript" src="{{ url_for('static', filename='libs/jquery.slim.min.js') }}"></script>
+
+   
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/Chart.mi.js') }}"></script>
+
+<style>
+body {background-color: LightCyan;}
+   table {
+    width: 100%; /* Ширина таблицы */
+    border-collapse: collapse; /* Убираем двойные линии между ячейками */
+   }
+   td, th {
+    padding: 3px; /* Поля вокруг содержимого таблицы */
+    border: 1px solid #000; /* Параметры рамки */
+   }
+   th {
+    background: #afd792; /* Цвет фона */
+    color: #333;  /* Цвет текста */
+   }
+   tbody tr:hover {
+    background: #0000FF; /* Цвет фона при наведении */
+    color: #000000; /* Цвет текста при наведении */
+   }
+   
+ input {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}  
+   
+</style>
+
+     <form method="POST" action='/back_1'>
+	 <p><button>Назад</button></p> 
+	 </form>
+ 
+     <form method="POST" action='/verify'>
+	 <p><button>далее</button></p> 
+	 </form>
+ 
+<center>
+
+<table id="table-tx" width="250" >
+  <tr>
+    <td bgcolor="#FFFFFF">id</th>
+    <td bgcolor="#FFFFFF">Скорость</th>
+    <td bgcolor="#FFFFFF">Сценарий</th>
+  </tr>
+  {%for   it in eps_spiss%}
+  <tr>
+  	   <td >{{it[0]}}</td>
+	  
+	   <form method="POST" action='/scenar1'>  
+
+          <td > <p><input  type = "submit" value = "{{it[1]}}" name="{{it[1]}}" /></p></td>
+		   </form>
+	   <form method="POST" action='/scenar1'>  
+
+          <td > <p><input  type = "submit" value = "{{it[2]}}" name="{{it[2]}}" /></p></td>
+		   </form>
+  
+		   
+
+  </tr>
+      {%endfor%}
+		
+  
+   </table>
+
+</center>
+
+   
+
+
+
+
+	
+
+</html>
