@@ -183,42 +183,12 @@ padding: 3px;
 
 
     <center>
-  <form  method="POST" action='/grafik' class="form-container">
 
-                  {%for  i  in data_grafik1%}
-
-                  <select id = "epb" name="comp_select" >
+                  <select id = "epb" name="comp_select" class="dropdown">
                     {% for o in data %}
-                    {% if i == o.name%}
-                    <option name="comp_select" value="{{ o.name }}" selected='selected' >{{ o.name2 }}</option>
-                    {%else %}
-                    <option name="comp_select" value="{{ o.name }}"  >{{ o.name2 }}</option>
-                    {% endif %}
-
+                    <option value="{{ o.name }}"  >{{ o.name2 }}</option>
                     {% endfor %}
                   </select>
-                  {%endfor%}
-
-                  {%for  i  in data_grafik2%}
-
-                  <select name="data2"  id="dd">
-
-                    {%for  j  in bufer_network2%}
-                    {% if j.der == i %}
-                     <option name="data2"  value='{{j.der}}' selected='selected'>{{j.name}}</option>
-
-                         {% else %}
-                     <option  name="data2"  value='{{j.der}}' >{{j.name}}</option>
-
-                      {% endif %}
-
-                  {%endfor%}
-                  </select>
-                  {%endfor%}
-
-                <p><input  type = "submit" value = "+"  /></p>
-                </form>
-
 
     </center>
 
@@ -235,7 +205,12 @@ padding: 3px;
         <input class= "myButton"  style="float: lefth; padding: 16px; background-color: red; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "{{punkt_menu[1]}}" />
      </form>
      {% endif %}
+     <select class="dropdown" id="dd">
 
+         <option value="dps1"  >Bitrate</option>
+         <option value="dps2">Video-ratio</option>
+
+     </select>
 
 
 
@@ -261,7 +236,6 @@ padding: 3px;
 
      </form>
     </div>
-    {% if perv %}
     <script>
     var chartTemperatue;
      var chartHumidity;
@@ -269,26 +243,26 @@ padding: 3px;
       var requests ;
 
 
-     {
+     $(".dropdown").change(function() {
+       var x = document.getElementById("dd").value;
+       var x1 = document.getElementById("epb").value;
 
+     if(x == "dps1"){
 
- {
 
                function requestData()
                {
-
-                 var x1 =  {{data_grafik1[0]}}//document.getElementById("epb").value;
-                 var myString = x1 .toString();
-                 var joined = '/data/'+myString
                    // Ajax call to get the Data from Flask
-         var requests = $.get(joined);
+                   var myString = x1 .toString();
+                   var joined = '/data/'+myString
+                   var requests = $.get(joined);
                   // var requests = $.get('/data/0');
 
                    var tm = requests.done(function (result)
                    {
                        // Temperature
                        var seriesTemperature = chartTemperatue.series[0],
-                           shiftTemperature = seriesTemperature.data.length > 1000000;
+                           shiftTemperature = seriesTemperature.data.length > 20;
 
                        // Humidity
 
@@ -314,8 +288,8 @@ padding: 3px;
 
 
                        // call it again after one second
-                       //setInterval(requestData, 3000);
-                   setTimeout(requestData, 2000);
+                       setTimeout(requestData, 3000);
+
                    });
                }
 
@@ -364,124 +338,108 @@ padding: 3px;
                });
 
        }
-       //if(x == "dps2")
+       if(x == "dps2"){
+
+       function requestData()
+       {
+
+         var myString = x1 .toString();
+         var joined = '/data/'+myString
+         var requests = $.get(joined);
+           // Ajax call to get the Data from Flask
+           //var requests = $.get('/data/0');
+
+           var tm = requests.done(function (result)
+           {
+               // Temperature
+               var seriesTemperature = chartTemperatue.series[0],
+                   shiftTemperature = seriesTemperature.data.length > 20;
+
+               // Humidity
+
+
+               // Add the Point
+               // Time Temperature\
+               var data1 = [];
+               data1.push(result[0]);
+               data1.push(result[2]);
+               data1.push(result[3]);
+
+
+               // Add the Point
+               // Time Humidity
+
+
+               chartTemperatue.series[0].addPoint(data1, true, shiftTemperature);
+
+               $(".sensor1").text("");
+               $(".sensor1").text("Response time : " +  Math.round(data1[2]) );
 
 
 
+            // call it again after one second
+               //setTimeout(requestData, 2000);
+               setTimeout(requestData, 3000);
 
-}
+           });
+       }
 
+       $(document).ready(function()
+       {
+           // --------------Chart 1 ----------------------------
 
-    </script>
-
-   {% else %}
-   <script>
-
-
-
-    {
-
-     // var joined = '/data/'+myString
-
-     {
-
-        function requestData()
-        {
-
-          var x1 =  {{data_grafik1[0]}}//document.getElementById("epb").value;
-          var myString = x1 .toString();
-          var joined = '/data/'+myString
-          //var myString = x1 .toString();
-          //var joined = '/data/'+myString
-          var requests = $.get(joined);
-            // Ajax call to get the Data from Flask
-            //var requests = $.get('/data/0');
-
-            var tm = requests.done(function (result)
-            {
-                // Temperature
-                var seriesTemperature = chartTemperatue.series[0],
-                    shiftTemperature = seriesTemperature.data.length > 1000000;
-
-                // Humidity
-
-
-                // Add the Point
-                // Time Temperature\
-                var data1 = [];
-                data1.push(result[0]);
-                data1.push(result[2]);
-                data1.push(result[3]);
-
-
-                // Add the Point
-                // Time Humidity
-
-
-                chartTemperatue.series[0].addPoint(data1, true, shiftTemperature);
-
-                $(".sensor1").text("");
-                $(".sensor1").text("Response time : " +  Math.round(data1[2]) );
-
-
-
-             // call it again after one second
-                setTimeout(requestData, 2000);
-                //setInterval(requestData, 3000);
-
-            });
-        }
-
-        $(document).ready(function()
-        {
-            // --------------Chart 1 ----------------------------
-
-            chartTemperatue = new Highcharts.Chart({
-                chart:
-                    {
-                    renderTo: 'data-temperature',
-                    defaultSeriesType: 'area',
-                    events: {
-                        load: requestData
-                            }
-                    },
-                title:
-                    {
-                    text: 'Video-ratio '
-                    },
-                xAxis: {
-                    type: 'datetime'
-                   // tickPixelInterval: 150
-                    //maxZoom: 20 * 1000
+           chartTemperatue = new Highcharts.Chart({
+               chart:
+                   {
+                   renderTo: 'data-temperature',
+                   defaultSeriesType: 'area',
+                   events: {
+                       load: requestData
+                           }
+                   },
+               title:
+                   {
+                   text: 'Video-ratio '
+                   },
+               xAxis: {
+                   type: 'datetime'
+                  // tickPixelInterval: 150
+                   //maxZoom: 20 * 1000
+                       },
+               yAxis: {
+                  // minPadding: 0.2,
+                   //maxPadding: 0.2,
+                   title: {
+                       text: '%'
+                      // margin: 80
+                           }
                         },
-                yAxis: {
-                   // minPadding: 0.2,
-                    //maxPadding: 0.2,
-                    title: {
-                        text: '%'
-                       // margin: 80
-                            }
-                         },
-                series: [{
-                    color : '#c23d23',
-                    lineColor: '#303030',
-                    name: 'Video-ratio',
-                    data: []
-                }]
-            });
-            // --------------Chart 1 Ends - -----------------
+               series: [{
+                   color : '#c23d23',
+                   lineColor: '#303030',
+                   name: 'Video-ratio',
+                   data: []
+               }]
+           });
+           // --------------Chart 1 Ends - -----------------
 
 
 
 
-        });
-
- }
+       });
 
 }
 
+
+});
+
+
     </script>
-    {% endif %}
+
+
+
+
+
 
 
 </body>

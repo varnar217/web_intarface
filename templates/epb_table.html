@@ -173,11 +173,11 @@ form
   <tr>
     <td >{{i.key}}</td>
         <td > <p><input  type = "submit" value = "{{i.veloc}}" name="{{i.key}}" /></p></td>
-        <form method="POST" action='/eb/nastroit/{{i.key}}'>
+        <form method="POST" action='/eb/nastroit/{{i.global_numb}}'>
 
         <td ><select name="scenar" >
               {%for  j  in scenar_lister%}
-              {% if j.indef == i.status %}
+              {% if j.indef_ir == i.status %}
               <option name="scenar"  value='{{j.indef}}' selected='selected'>{{j.name}}</option>
               {% else %}
                    <option name="scenar"  value="{{ j.indef }}" >{{ j.name }}</option>
@@ -187,7 +187,7 @@ form
 
          <td ><select name="network">
                {%for  j  in bufer_network%}
-               {% if j.indef == i.status_nt %}
+               {% if j.der == i.status_nt %}
                <option name="network" value='{{j.indef}}' selected='selected'>{{j.name}}</option>
                {% else %}
                     <option name="network" value="{{ j.indef }}" >{{ j.name }}</option>
@@ -198,7 +198,7 @@ form
 
                <td > <p><input  type = "submit" value = "{{punkt_menu[4]}}" name="{{i.key}}" /></p></td>
                   </form>
-           <form method="POST" action='/eb/delete/{{i.key}}'>
+           <form method="POST" action='/eb/delete/{{i.global_numb}}'>
 
                 <td > <p><input  type = "submit" value = "{{punkt_menu[5]}}" name="{{i.key}}" /></p></td>
                     </form>
@@ -217,20 +217,20 @@ form
 </center>
 
 <div class="form-popup" id="myForm">
-  <form   method="POST" action='/muni_epb/add' class="form-container">
+  <form   method="POST" action='/eb_ALL/add' class="form-container">
     <h1>{{punkt_menu[3]}}Change EPS_BIAR</h1>
 
     <label for="email"><b>{{punkt_menu[4]}}</b></label>
-    <input color=" blue" type="number" name="colich" required>
+    <input color=" blue" min=1 max=200 type="number" name="colich" required>
     <label for="name_sce"><b>{{punkt_menu[2]}}</b></label>
 
         {%for  i  in iter_nacha%}
            <select name="scenar" >
               {%for  j  in scenar_lister%}
-              {% if j.indef == i %}
-              <option name="scenar"  value='{{j.indef}}' selected='selected'>{{j.name}}</option>
+              {% if j.indef_ir == i %}
+              <option name="td1"  value='{{j.indef}}' selected='selected'>{{j.name}}</option>
               {% else %}
-                   <option name="scenar"  value="{{ j.indef }}" >{{ j.name }}</option>
+                   <option name="td2"  value="{{ j.indef }}" >{{ j.name }}</option>
                {% endif %}
             {%endfor%}
          </select>
@@ -238,10 +238,10 @@ form
 
          <select name="network">
                {%for  j  in bufer_network%}
-               {% if j.indef == i %}
-               <option name="network" value='{{j.indef}}' selected='selected'>{{j.name}}</option>
+               {% if j.der == i %}
+               <option name="td1" value='{{j.indef}}' selected='selected'>{{j.name}}</option>
                {% else %}
-                    <option name="network" value="{{ j.indef }}" >{{ j.name }}</option>
+                    <option name="td2" value="{{ j.indef }}" >{{ j.name }}</option>
                 {% endif %}
              {%endfor%}
           </select>

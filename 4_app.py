@@ -41,6 +41,11 @@ number_EPS=0
 conect=True
 number_idd=0
 udras= ''
+data_grafik1=  [0 ]
+data_grafik2=  [0 ]
+bufer_network2=[{'name':'Bitrate','der':0},{'name':'Video-ratio','der':1}]
+
+data2_global=0
 labels = [
     'Video', 'Not Video'
 ]
@@ -124,6 +129,7 @@ def nachal():
 
                 ###############################
                 bufe_pcap=[]
+                print('\n !!!!jss2[user_scenario]=',jss2['user_scenario'])
                 for i in jss2['user_scenario'][0]['pcap_id']:
                     bufe_pcap.append(i)
                 bufer.append(bufe_pcap)
@@ -155,16 +161,20 @@ def nachal():
 
                     spisok_scenariev.append(bufer)
                 print('\nspisok_scenariev=',spisok_scenariev)
+                print('\n jss2[network_scenario]=',jss2['network_scenario'])
+                bufe_pcap=[] # не удалять
 
 
                 bufe_pcap.append('Custom')
 
 
                 bufe_pcap.append(jss2['network_scenario'][0]['jitter'])
-                bufe_pcap.append(jss2['network_scenario'][0]['jitter'])
+                #bufe_pcap.append(jss2['network_scenario'][0]['jitter'])
                 bufe_pcap.append(jss2['network_scenario'][0]['burst'])
+                bufe_pcap.append(0)
                 network_list.append(bufe_pcap)
-                print('\nperv=',network_list)
+                print('\n network_list =',network_list)
+                print('\n network_list =',jss2['network_scenario'][0])
                 #spisok_scenariev
                 #print('j=',jss2['network_scenario'])
                 for it in jss2['network_scenario'] :
@@ -172,6 +182,7 @@ def nachal():
                     bufer.append(it['name'])
                     bufer.append(it['jitter'])
                     bufer.append(it['burst'])
+                    bufer.append(it['id'])
                     #print(it)
                     network_list.append(bufer) #name jitter , burst
                 print('\ndo network_list=',network_list)
@@ -351,12 +362,13 @@ def izmen1():
 @app.route('/izmen_scenari/new', methods=[ 'POST','GET'])
 def izmen_scenari():
     if request.method == 'POST' or request.method == 'GET':
-        print('\nzachel_rabotaet')
+        print('\n zachel_rabotaet')
+        print('\n zachel_rabotaet')
         scen=int(request.form['scenar_number234'])
         #regim=request.form['user_regim']
         scenar_pcap =request.form.getlist('scenar')
-        print('scenar_pcap=',scenar_pcap)
-        print('scen=',scen)
+        print('\n scenar_pcap=',scenar_pcap)
+        print('\n scen=',scen)
         vr_summ=0
         scenar_izmen=[]
         for i in scenar_pcap:
@@ -365,8 +377,11 @@ def izmen_scenari():
         for i in scenar_izmen:
             print(pcap_cortg[i-1])
             vr_summ=vr_summ+pcap_cortg[i-1][1]
-        print('spisok_sceanarieb=',spisok_scenariev[scen][1])
+        print('\nspisok_sceanarieb=',spisok_scenariev[scen][1])
         name=spisok_scenariev[scen][1]
+        if scen == 0:
+            spisok_scenariev[scen][2]=scenar_izmen
+
 
         if scen != 0:
 
@@ -401,7 +416,7 @@ def izmen_scenari():
 
 
 
-@app.route('/izmen2', methods=[ 'POST'])
+@app.route('/izmen2', methods=[ 'POST']) # добавить условие при  нуле custom
 def izmen2():
     if request.method == 'POST':
         print('rabotaetss\n')
@@ -422,10 +437,10 @@ def izmen2():
         print('\nscenar=',scenar_izmen)
         print('\nnum_scen=',num_scen)
         print('\neps_netw=',eps_netw)
-        print('\nspis_scenar=',spisok_scenariev[num_scen-1])
+        print('\nspis_scenar=',spisok_scenariev[num_scen])
         print('\nallspis_scenar=',spisok_scenariev)
 
-        print('\nspis_netw=',network_list[eps_netw-1])
+        print('\nspis_netw=',network_list[eps_netw])
         print('\nallspis_netw=',network_list)
 
         ############################newtork###################################################################
@@ -440,11 +455,11 @@ def izmen2():
 
         flag_scenar=False
         name_scenar=''
-        if spisok_scenariev[num_scen-1][2] == scenar_izmen:
+        if spisok_scenariev[num_scen][2] == scenar_izmen:
             print('sovpadate')
             flag_scenar=True
             id = num_scen
-            name_scenar=spisok_scenariev[num_scen-1][1]
+            name_scenar=spisok_scenariev[num_scen][1]
 
         else:
             print('nesovpadate')
@@ -452,13 +467,13 @@ def izmen2():
             id = 0
             name_scenar='Custom'
         flag_netw=False
-        print(network_list[eps_netw-1])
-        if jitter_timeup == int(network_list[eps_netw-1][1]['timeup']) and  jitter_timedown == int(network_list[eps_netw-1][1]['timedown'])  and jitter_value == int(network_list[eps_netw-1][1]['value']) and  burst_timeup == int( network_list[eps_netw-1][2]['timeup']) and burst_timedown ==  int(network_list[eps_netw-1][2]['timedown']):
+        print(network_list[eps_netw])
+        if jitter_timeup == int(network_list[eps_netw][1]['timeup']) and  jitter_timedown == int(network_list[eps_netw][1]['timedown']) and jitter_value == int(network_list[eps_netw][1]['value']) and  burst_timeup == int( network_list[eps_netw][2]['timeup']) and burst_timedown ==  int(network_list[eps_netw][2]['timedown']):
             print('sovpadate')
             flag_netw=True
             id_netw = eps_netw
-            print(network_list[eps_netw-1])
-            name_netw=network_list[eps_netw-1][0]
+            print(network_list[eps_netw])
+            name_netw=network_list[eps_netw][0]
 
         else:
             print('nesovpadate')
@@ -630,80 +645,259 @@ def izmen2():
         # вставить изменения из общего конфигурации form
         return redirect(url_for("LIST_EPS"))
 
-@app.route('/muni_epb/add', methods=[ 'POST'])
-def muni_epb_add():
-    """ Добавление нового EPS_BIAR"""
+
+@app.route('/eb_ALL/add', methods=[ 'POST'])
+def eb_all_add():
+    global  eps_br , spisok_scenariev , network_list
+
     if request.method == 'POST' :
-        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-
-        global  eps_br ,  spisok_scenariev
-        print('\n!!!!!!!!!!!!!!eps_br=',eps_br)
-        number=int(request.form['colich'])
-        print('\n!!!!!!!!!!!!!!eps_br=',number)
+        col=int(request.form['colich'])
+        print('\n 222 spisok_scenariev =',spisok_scenariev)
+        print('\n 2222 network_list =',network_list)
         scenar=request.form.getlist('scenar')
-        print('scenar=',scenar)
+        print('\n \n \n \n scenar=',scenar)
+        scenar_numb=0
+        for it  in scenar:
+            scenar_numb= int(it)
+
         network=request.form.getlist('network')
-        print('network=',network)
+        print('\n \n \n \n network=',network)
+        pass
 
-        new_id=len(eps_br)+1
-        #if new_id == 0:
-            #new_id=new_id+1
-        print('/nnew_id=',new_id)
-        print('/n pcap_cortg=',pcap_cortg)
-        print('/n eps_br=',eps_br)
+        network_numb=0
+        for it  in network:
+            network_numb= int(it)
 
-        scenar_izmen=[1]
-        vr_summ=0
+        print('\n scenar=',scenar)
+        print('\n network=',network)
+        print('\n eps_br=',eps_br)
+        #out=len(eps_br)-1
+        #print('\n out=',eps_br[out])
+        print('\n eps_br=',eps_br)
+        spisok_eps=[]
+        for i in eps_br:
+            spisok_eps.append(int(i[3]))
+        j=0
+        js=[]
 
-        if (len(eps_br)+number) <200 :
-            for i in range(1,number+1):
-                print(spisok_scenariev[i])
+        for ii in range(1,201) :
+
+            if ii not in spisok_eps :
+                print('\n zachodit i=',ii)
+                j=j+1
+                if network_numb == 0 and scenar_numb == 0:
+                    print('\n scenar_numb = ', spisok_scenariev[scenar_numb])
+                    print('\n scenar_numb = ', scenar_numb)
+                    print('\n network_numb = ', network_list[network_numb])
+                    print('\n network_numb = ', network_numb)
+                    #new_id=int(eps_br[out][3])+i
+                    #vr_summ1=spisok_scenariev[scenar_numb][0]
+                    scenar_izmen=[]
+
+                    #vr_summ=0 #pcap_cortg[i-1][1]
+                    scenar_izmen=[]
+                    for it in spisok_scenariev[scenar_numb][2] :
+                        scenar_izmen.append(int(it))
+
+                    vr_summ=0
+                    for i in scenar_izmen:
+                        #print(pcap_cortg[i-1])
+                        vr_summ=vr_summ+pcap_cortg[i-1][1]
+
+                    json_out={
+                    "params":{
+                    "eb": [{
+                    "id":ii,
+                    "br":int(vr_summ),
+                    "user_scenario":{
+                    "id": 0,
+                    "name": "Custom",
+                    "br": int(vr_summ),
+                    "pcap_id":spisok_scenariev[scenar_numb][2]
+                    }, "network_scenario":{
+                    "id": 0,
+                    "name": "Custom",
+                    "jitter" :{
+                    "timeup":network_list[network_numb][1]['timeup'],
+                    "timedown":network_list[network_numb][1]['timedown'],
+                    "value":network_list[network_numb][1]['value']
+                    },
+                    "burst": {
+                    "timeup":network_list[network_numb][2]['timeup'],
+                    "timedown":network_list[network_numb][2]['timedown']
+                    }
+                    }
+                    }]
+                    }
+                    }
+                    try :
+                        print('do do put scenario out=',json_out)
+                        rr=req.post(f'http://{udras}/params/eb',json=(json_out))
+                        js = json.loads(rr.text)
+                        print('\nout_put_scenar=',js)
 
 
-            #try:
-                #for i in scenar_izmen:
-                    #print(pcap_cortg[i-1])
-                    #vr_summ=vr_summ+pcap_cortg[i-1][1]
+                    except Exception as ex:
+                        return  render_template('first.html')
+                        print('do do =',json_out)
 
-                """json_out={
-                "params":{
-                "eb": [{
-                "id":new_id,
-                "br":int(vr_summ),
-                "user_scenario":{
-                "id": 0,
-                "name": "Custom",
-                "br": int(vr_summ),
-                "pcap_id":scenar_izmen
-                }, "network_scenario":{
-                "id": 0,
-                "name": "Custom",
-                "jitter" :{
-                "timeup":0,
-                "timedown":0,
-                "value":0
-                },
-                "burst": {
-                "timeup":0,
-                "timedown":0
-                }
-                }
-                }]
-                }
-                }"""
-                #print('do do =',json_out)
-                #rr=req.post(f'http://{udras}/params/eb',json=(json_out))
+                if network_numb == 0 and scenar_numb != 0:
+                    print('\n scenar_numb = ', spisok_scenariev[scenar_numb])
+                    print('\n scenar_numb = ', scenar_numb)
+                    print('\n network_numb = ', network_list[network_numb])
+                    print('\n network_numb = ', network_numb)
+                    print('\n \n \n  !!!!!!!!!!!!!!!!! = ', spisok_scenariev[scenar_numb][0])
+                    #new_id=int(eps_br[out][3])+i
+                    vr_summ1=spisok_scenariev[scenar_numb][0]
+                    scenar_izmen=[]
 
-                #js = json.loads(rr.text)
-                #print('\nadd new EPSBEAR=',js)
 
-                #if js['response']['code'] == 0 :
-                    #return redirect(url_for('LIST_EPS'))
-                #else:
-                    #return redirect(url_for('LIST_EPS'))
-            #except Exception as ex:
-                #return  render_template('first.html')
+                    #vr_summ=0 #pcap_cortg[i-1][1]
+                    scenar_izmen=[]
+                    for it in spisok_scenariev[scenar_numb][2] :
+                        scenar_izmen.append(int(it))
 
+                    vr_summ=0
+                    for i in scenar_izmen:
+                        #print(pcap_cortg[i-1])
+                        vr_summ=vr_summ+pcap_cortg[i-1][1]
+
+                    json_out={
+                    "params":{
+                    "eb": [{
+                    "id":ii,
+                    "br":int(vr_summ),
+                    "user_scenario":{
+                    "id": spisok_scenariev[scenar_numb][0]
+
+                    }, "network_scenario":{
+                    "id": 0,
+                    "name": "Custom",
+                    "jitter" :{
+                    "timeup":network_list[network_numb][1]['timeup'],
+                    "timedown":network_list[network_numb][1]['timedown'],
+                    "value":network_list[network_numb][1]['value']
+                    },
+                    "burst": {
+                    "timeup":network_list[network_numb][2]['timeup'],
+                    "timedown":network_list[network_numb][2]['timedown']
+                    }
+                    }
+                    }]
+                    }
+                    }
+
+                    try :
+                        print('do do put scenario out=',json_out)
+                        rr=req.post(f'http://{udras}/params/eb',json=(json_out))
+                        js = json.loads(rr.text)
+                        print('\nout_put_scenar=',js)
+
+
+                    except Exception as ex:
+                        return  render_template('first.html')
+                        print('do do =',json_out)
+
+                if network_numb != 0 and scenar_numb != 0:
+                    print('\n scenar_numb = ', spisok_scenariev[scenar_numb])
+                    print('\n scenar_numb = ', scenar_numb)
+                    print('\n network_numb = ', network_list[network_numb])
+                    print('\n network_numb = ', network_numb)
+                    #new_id=int(eps_br[out][3])+i
+                    vr_summ1=spisok_scenariev[scenar_numb][0]
+                    scenar_izmen=[]
+
+
+                    #vr_summ=0 #pcap_cortg[i-1][1]
+                    scenar_izmen=[]
+                    for it in spisok_scenariev[scenar_numb][2] :
+                        scenar_izmen.append(int(it))
+
+                    vr_summ=0
+                    for i in scenar_izmen:
+                        #print(pcap_cortg[i-1])
+                        vr_summ=vr_summ+pcap_cortg[i-1][1]
+                    json_out={
+                    "params":{
+                    "eb": [{
+                    "id":ii,
+                    "br":int(vr_summ),
+                    "user_scenario":{
+                    "id": spisok_scenariev[scenar_numb][0]
+
+                    }, "network_scenario":{
+                    "id": network_list[network_numb][3]
+                    }
+
+                    }]
+                    }
+                    }
+                    try :
+                        print('do do put scenario out=',json_out)
+                        rr=req.post(f'http://{udras}/params/eb',json=(json_out))
+                        js = json.loads(rr.text)
+                        print('\nout_put_scenar=',js)
+
+
+                    except Exception as ex:
+                        return  render_template('first.html')
+                        print('do do =',json_out)
+
+                if network_numb != 0 and scenar_numb == 0:
+                    print('\n scenar_numb = ', spisok_scenariev[scenar_numb])
+                    print('\n scenar_numb = ', scenar_numb)
+                    print('\n network_numb = ', network_list[network_numb])
+                    print('\n network_numb = ', network_numb)
+                    #new_id=int(eps_br[out][3])+i
+                    vr_summ1=spisok_scenariev[scenar_numb][0]
+                    scenar_izmen=[]
+
+
+                    #vr_summ=0 #pcap_cortg[i-1][1]
+                    scenar_izmen=[]
+                    for it in spisok_scenariev[scenar_numb][2] :
+                        scenar_izmen.append(int(it))
+
+                    vr_summ=0
+                    for i in scenar_izmen:
+                        #print(pcap_cortg[i-1])
+                        vr_summ=vr_summ+pcap_cortg[i-1][1]
+                    json_out={
+                    "params":{
+                    "eb": [{
+                    "id":ii,
+                    "br":int(vr_summ),
+                    "user_scenario":{
+                    "id": 0,
+                    "name": "Custom",
+                    "br": int(vr_summ),
+                    "pcap_id":spisok_scenariev[scenar_numb][2]
+                    }, "network_scenario":{
+                    "id": network_list[network_numb][3]
+                    }
+
+                    }]
+                    }
+                    }
+
+                    try :
+                        print('do do put scenario out=',json_out)
+                        rr=req.post(f'http://{udras}/params/eb',json=(json_out))
+                        js = json.loads(rr.text)
+                        print('\nout_put_scenar=',js)
+
+
+                    except Exception as ex:
+                        return  render_template('first.html')
+                        print('do do =',json_out)
+            if j == col :
+                break
+
+        if js['response']['code'] == 0 :
+
+            return redirect(url_for('LIST_EPS'))
+        else:
+            return redirect(url_for('LIST_EPS'))
 
 
 @app.route('/eb/add', methods=[ 'POST'])
@@ -924,11 +1118,10 @@ def add_pcap_scen():
         punkt_menu=punkt_menu_nach[1]
         lang_bool=False
     if request.method == 'POST':
-        #if number !=0 :
-            scen=int(request.form['scenar_number'])
-            print('\nrabotaet=',scen)
 
-            #pcap_id=int(number)
+            scen=int(request.form['scenar_number'])
+            print('\nrabotaet=',1)
+
             global spisok_scenariev
 
 
@@ -966,6 +1159,7 @@ def add_pcap_scen():
             promeg=spisok_scenariev[scen][2]
             pr=[]
 
+            print('do do !!!!!!!!!!!!!!!out_pcap_id=',spisok_scenariev[scen][2])
 
             spisok_scenariev[scen][2].append(1)
 
@@ -973,7 +1167,7 @@ def add_pcap_scen():
             out_pcap_id=[]
             for i in scenar_podchodit:
                 out_pcap_id.append({'znach':i})
-            print('!!!!!!!!!!!!!!!out_pcap_id=',)
+            print('!!!!!!!!!!!!!!!out_pcap_id=',spisok_scenariev[scen][2])
 
             for i in     out_pcap_id :
                 #print('i=',i)
@@ -1136,8 +1330,9 @@ def delete_scenar(number):
 @app.route('/eps/network/delete/<int:number>', methods=[ 'POST'])
 def delete_network(number):
     if request.method == 'POST':
-        if number !=0 :
+        if number !=0 and  number>0 :
             try:
+
                 json_out={
                 "params":{
                 "network_scenario":[{
@@ -1168,7 +1363,7 @@ def delete_network(number):
 @app.route('/eb/delete/<int:number>', methods=[ 'POST'])
 def delete_eb(number):
     if request.method == 'POST':
-        if number !=0 and number>1 :
+        if len(eps_br)>1 :
             try:
                 json_out={
                 "params":{
@@ -1254,11 +1449,14 @@ def eps_scenar(number):
 
         video=0
         dontvideo=0
-        #print('spisok=',spisok_scenariev[number-1])
+        #
         scenar_podchodit=spisok_scenariev[number][2]
         out_pcap_id=[]
+        print('\n !!! spisok=',scenar_podchodit)
+        g=1
         for i in scenar_podchodit:
-            out_pcap_id.append({'znach':i})
+            out_pcap_id.append({'znach':i,'numb':g})
+            g=g+1
 
         for i in     out_pcap_id :
             #print('i=',i)
@@ -1355,43 +1553,48 @@ def network_add():
         #pass
 @app.route('/izmen_network/new', methods=[ 'POST'])
 def network_change():
+    global  network_list
     if request.method == 'POST':
+
         id_change=int(request.form['scenar_number234'])
         timeup_jitter=int(request.form['timeup_jitter'])
         timedown_jitter=int(request.form['timedown_jitter'])
         value_jitter=int(request.form['value_jitter'])
         timeup_burst=int(request.form['timeup_burst'])
         timedown_burst=int(request.form['timedown_burst'])
-        name=network_list[id_change-1][0]
-        print('network_list=',network_list[id_change-1])
-        json_out={
-        "params":{
-        "network_scenario":[{
-        "id": id_change,
-        "name": name,
-        "jitter" :{
-        "timeup":timeup_jitter,
-        "timedown":timedown_jitter,
-        "value":value_jitter
-        },
-        "burst": {
-        "timeup":timeup_burst,
-        "timedown":timedown_burst
-        }
-        }]
-        }
-        }
-        print('do do =',json_out)
-        rr=req.put(f'http://{udras}/params/network_scenario',json=(json_out))
+        name=network_list[id_change][0]
+        if id_change != 0 :
+            print('network_list=',network_list[id_change])
+            json_out={
+            "params":{
+            "network_scenario":[{
+            "id": id_change,
+            "name": name,
+            "jitter" :{
+            "timeup":timeup_jitter,
+            "timedown":timedown_jitter,
+            "value":value_jitter
+            },
+            "burst": {
+            "timeup":timeup_burst,
+            "timedown":timedown_burst
+            }
+            }]
+            }
+            }
+            print('do do =',json_out)
+            rr=req.put(f'http://{udras}/params/network_scenario',json=(json_out))
 
-        js = json.loads(rr.text)
-        print('\nadd change  izmen_network=',js)
+            js = json.loads(rr.text)
+            print('\nadd change  izmen_network=',js)
 
-        if js['response']['code'] == 0 :
-            return redirect(url_for('network_spis'))
+            if js['response']['code'] == 0 :
+                return redirect(url_for('network_spis'))
+            else:
+                return redirect(url_for('network_spis'))
         else:
+            network_list[id_change]=['Custom',{'timedown': timedown_jitter, 'timeup': timeup_jitter, 'value': value_jitter},{'timedown': timedown_burst, 'timeup': timeup_burst}]
             return redirect(url_for('network_spis'))
-        pass
 
     #pass
 @app.route('/eps/network/<int:number>', methods=[ 'POST','GET'])
@@ -1413,7 +1616,8 @@ def eps_network(number):
     #global conect
     if request.method == 'POST' or request.method == 'GET':
         number_idd=number
-        znach=network_list[number-1]
+        #znach=network_list[number-1]
+        znach=network_list[number]
         print('znach=',znach)
         buferr=[]
         video=[]
@@ -1439,7 +1643,8 @@ def eps_network(number):
 
 
 
-        return render_template('epsbiar_network.html',punkt_menu=punkt_menu,lang_bool=lang_bool,conect=conect,
+        return render_template('epsbiar_network.html',
+        punkt_menu=punkt_menu,lang_bool=lang_bool,conect=conect,
         network_number=network_number,zagolovok=zagolovok,time_otvet=time_otvet,start_flag1=start_flag)
 
 
@@ -1448,7 +1653,7 @@ def eps_network(number):
 @app.route('/LIST_EPS', methods=[ 'POST','GET'])
 def LIST_EPS():
     """ выводит список все EPS_BIAR"""
-    global  time_otvet , lang_switch , conect
+    global  time_otvet , lang_switch , conect , global_number_eps
 
     punkt_menu_nach=[['Total bitrate (bit/sec)','Bitrate (bit/sec)' ,'User scenario','Network_scenario','Tune','Delete','Back'],['Cуммарный битрейт (бит/сек)','Битрейт (бит/сек )' ,'Пользовательский сценарий','Сетевой сценарий','Настроить','Удалить','Назад']]
     lang_bool=False
@@ -1472,20 +1677,23 @@ def LIST_EPS():
             buferr=rr.text
             print('\nbuferrrrrrrrr=',buferr)
             js = json.loads(buferr)
-            global spisok_scenariev , eps_br
+            global eps_br ,spisok_scenariev , network_list
             #print('js=',js)
 
             if js['response']['code'] == 0 :
                 eps_br=[]
                 js2=js['params']['eb']
+                print('\n js2=',js2)
+                global_number_eps=len(js2)
                 for it in js2:
                     bufer=[]
                     #print(,it)
                     bufer.append(it['br'])
                     bufer.append(it['user_scenario'])
                     bufer.append(it['network_scenario'])
+                    bufer.append(it['id'])
                     eps_br.append(bufer)
-            #print('!!!!!!!!!!!!!!!!!!XXXXXXXXXXXXeps_br=eps_br=',eps_br)
+            print('!!!!!!!!!!!!!!!!!!XXXXXXXXXXXXeps_br=eps_br=',eps_br)
             #pass
             buferr=[]
             i=0
@@ -1493,23 +1701,29 @@ def LIST_EPS():
             for it in eps_br:
                 i=i+1
                 summer_velocity=summer_velocity+it[0]
-                buferr.append({'key':i,'veloc':it[0],'status':it[1]['id'],'status_nt':it[2]['id']})
+                print('\n \n it=',it)
+                buferr.append({'key':i,'veloc':it[0],'status':it[1]['id'],'status_nt':it[2]['id'],'global_numb':it[3]})
             #print('SCENAR=',spisok_scenariev)
             #print('buferr=',buferr)
             scenar_lister=[]
-            scenar_lister.append({'name':'Custom','indef':0})
+            #scenar_lister.append({'name':'Custom','indef':0})
             bufer_network=[]
-            bufer_network.append({'name':'Custom','indef':0})
+            #bufer_network.append({'name':'Custom','indef':0})
             g=0
+            print('\n spisok_scenariev=',spisok_scenariev)
             for i in spisok_scenariev:
+                print('\n i=',i)
+                scenar_lister.append({'name':i[1],'indef':g,'indef_ir':i[0]})
                 g=g+1
-                scenar_lister.append({'name':i[1],'indef':g})
 
-            #print('network_list=',network_list)
             g=0
+            print('\n network_list=',network_list)
+
             for i in network_list:
+                print('\n i=',i)
+                bufer_network.append({'name':i[0],'indef':g,'der':i[3]})
                 g=g+1
-                bufer_network.append({'name':i[0],'indef':g})
+
             start_flag=False
 
             if start_flag1%2 == 0:
@@ -1699,7 +1913,7 @@ def scenar_spis():
 
             spisok_outt=[]
 
-            spisok_outt.append([0,'Custom'])
+            #spisok_outt.append([0,'Custom'])
             start= time()
 
             rr=req.get(f'http://{udras}/params/user_scenario')
@@ -1708,27 +1922,38 @@ def scenar_spis():
             bufer=rr.text
             json_poputka=json.loads(bufer)
             print('11 json_poputka',bufer)
+            print('\nspisok_scenariev',spisok_scenariev)
+            nachalo=[]
+            bufer=[]
+            bufer2=[]
             if json_poputka['response']['code'] == 0 :
                 g=0
+                if  len(spisok_scenariev)>1:
+                    print('\n \n rabotaet!!!!!!!!!!!!!!!!!!!!')
+                    nachalo=spisok_scenariev[0]
+                    print('nachalo=',nachalo)
+                    bufer2.append(nachalo[0])
+                    bufer2.append(nachalo[1])
+
+                    print('\n \n rabotaet!!!!!!!!!!!!!!!!!!!!')
+
+                else:
+                    #bufer=[]
+                    bufer.append(0)
+                    bufer.append('Custom')
+                    bufer2.append(0)
+                    bufer2.append('Custom')
+
+                    bufe_pcap=[]
+                    for i in json_poputka['params']['user_scenario'][0]['pcap_id']:
+                        bufe_pcap.append(i)
+                    bufer.append(bufe_pcap)
+                    nachalo=bufer
                 spisok_scenariev=[]
-                #print('rr1=',bufer)
-                #print('rr1=',json_poputka.keys())
-
-
-                                ###############################
-
-                bufer=[]
-                bufer.append(0)
-                bufer.append('Custom')
-
-                ###############################
-                bufe_pcap=[]
-                for i in json_poputka['params']['user_scenario'][0]['pcap_id']:
-                    bufe_pcap.append(i)
-                bufer.append(bufe_pcap)
-                spisok_scenariev.append(bufer)
+                spisok_scenariev.append(nachalo)
 
                 print('rr2=',json_poputka['params']['user_scenario'])
+                spisok_outt.append(bufer2)
                 for it in json_poputka['params']['user_scenario']:
 
 
@@ -1820,21 +2045,88 @@ def network_spis():
         #bufer.append(it['name'])
         #bufer.append(it['jitter'])
         #bufer.append(it['burst'])
+        nachalo=[]
+        bufer=[]
+        bufer2=[]
+        #if json_poputka['response']['code'] == 0 :
+            #g=0
+            #if  len(spisok_scenariev)>1:
+                #print('\n \n rabotaet!!!!!!!!!!!!!!!!!!!!')
+                #nachalo=spisok_scenariev[0]
+                #print('nachalo=',nachalo)
+                #bufer2.append(nachalo[0])
+                #bufer2.append(nachalo[1])
+
+                #print('\n \n rabotaet!!!!!!!!!!!!!!!!!!!!')
+
+            #else:
+                #bufer=[]
+                #bufer.append(0)
+                #bufer.append('Custom')
+                #bufer2.append(0)
+                #bufer2.append('Custom')
+
+                #bufe_pcap=[]
+                #for i in json_poputka['params']['user_scenario'][0]['pcap_id']:
+                    #bufe_pcap.append(i)
+                #bufer.append(bufe_pcap)
+                #nachalo=bufer
+            #spisok_scenariev=[]
+            #spisok_scenariev.append(nachalo)
+
         if json_poputka['response']['code'] == 0 :
+            g=0
+            nachalo=[]
+            if len(network_list)>1 :
+                nachalo=network_list[0]
+                print('\n \n nachalo=',nachalo)
+                print('\n \n network_list=',network_list)
+            else:
+                bufe_pcap.append('Custom')
+                bufe_pcap.append(json_poputka['params']['network_scenario'][0]['jitter'])
+                bufe_pcap.append(json_poputka['params']['network_scenario'][0]['burst'])
+                bufe_pcap.append(json_poputka['params']['network_scenario'][0]['id'])
+                nachalo=bufe_pcap
+
+                #pass
             network_list=[]
+            network_list.append(nachalo)
+            #if  len(network_list)>1:
+                #nachalo=spisok_scenariev[0]
+                #print('nachalo=',nachalo)
+                #bufer2.append(nachalo[0])
+                #bufer2.append(nachalo[1])
+            #else:
+                #bufer=[]
+                #bufer.append(0)
+                #bufer.append('Custom')
+                #bufer2.append(0)
+                #bufer2.append('Custom')
+
+                #bufe_pcap=[]
+                #for i in json_poputka['params']['network_scenario'][0]['pcap_id']:
+                    #bufe_pcap.append(i)
+                #bufe_pcap.append(json_poputka['params']['network_scenario'][0]['jitter'])
+                #bufe_pcap.append(json_poputka['params']['network_scenario'][0]['jitter'])
+                #bufe_pcap.append(json_poputka['params']['network_scenario'][0]['burst'])
+                #bufer.append(bufe_pcap)
+                #nachalo=bufer
+            #spisok_scenariev=[]
+            #spisok_scenariev.append(nachalo)
+                #pass
             #print('json_poputka=',json_poputka['params'].keys())
             #print('rr1=',bufer)
             #print('rr1=',json_poputka.keys())
             #print('rr2=',json_poputka['params']['user_scenario'])
-            bufe_pcap=[]
-            bufe_pcap.append('Custom')
+            #bufe_pcap=[]
+            #bufe_pcap.append('Custom')
 
 
-            bufe_pcap.append(json_poputka['params']['network_scenario'][0]['jitter'])
-            bufe_pcap.append(json_poputka['params']['network_scenario'][0]['jitter'])
-            bufe_pcap.append(json_poputka['params']['network_scenario'][0]['burst'])
+            #bufe_pcap.append(json_poputka['params']['network_scenario'][0]['jitter'])
+            #bufe_pcap.append(json_poputka['params']['network_scenario'][0]['jitter'])
+            #bufe_pcap.append(json_poputka['params']['network_scenario'][0]['burst'])
             spisok_outt.append([0,'Custom'])
-            network_list.append(bufe_pcap)
+            #network_list.append(bufe_pcap)
             for it in json_poputka['params']['network_scenario']:
                 print('it=',it)
                 bufer=[]
@@ -1845,6 +2137,7 @@ def network_spis():
                 bufer3.append(it['name'])
                 bufer3.append(it['jitter'])
                 bufer3.append(it['burst'])
+                bufer3.append(it['id'])
                 spisok_outt.append(bufer2)
                 network_list.append(bufer3)
 
@@ -1867,21 +2160,59 @@ def network_spis():
         iter_nacha=iter_nacha,spisok_outt=spisok_outt,eps_spis=eps_spis,
         time_otvet= time_otvet,start_flag1=start_flag) #redirect(f"/eps/{global_number_eps}")
 
+@app.route('/grafik', methods=[ 'POST'])
+def grafik():
+    if request.method == 'POST' :
+        global data2_global , data_grafik1 , data_grafik2
+
+        bufer1=[]
+        bufer2=[]
+
+        data_grafik1=request.form.getlist('comp_select')
+        print('\n \n 22!!!!!!!!!!!!!!=',data_grafik2)
+
+        for it in  data_grafik1:
+            bufer1.append(int(it))
+        data_grafik1=bufer1
+
+        data_grafik2=request.form.getlist('data2')
+        print('\n \n !!!!!!!!!!!!!!=',data_grafik2)
+        for it in  data_grafik2:
+            bufer2.append(int(it))
+        data_grafik2=bufer2
+        return  redirect(url_for("gra"))
+
+
+
+
 @app.route('/gra', methods=[ 'GET'])
 def gra():
     """отрисовка  """
     #global start_flag
     #start_flag=True
-    global start_flag1 , global_number_eps,lang_switch , conect  , port_adres
+    global start_flag1 , global_number_eps,lang_switch , conect  , port_adres , data2_global
+
+    bufer=0
+    select_eps=0
+    select_value=0
     #start_flag1=start_flag1+1
     #sesion_1=req.put(f'http://{udras}/state/graph')
     punkt_menu_nach=[['Start','Stop' ,'Menu','List custom script','List EPS-Bearer','List network_scenario'],['Старт','Стоп', 'Меню','Список пользовательских сценариев','Список EPS-Bearer','Список сетевых сценариев']]
     data=[]
-    for it in range(global_number_eps) :
+    global_number_eps_1=global_number_eps+1
+    for it in range(global_number_eps_1) :
         if it == 0:
             data.append({'name':it,'name2':'ALL'})
         else:
             data.append({'name':it,'name2':str(it)})
+
+    perv=True
+    if data_grafik2[0] %2 == 0:
+        perv=True
+    else:
+        perv=False
+
+
 
 
     #data=[{'name':0}, {'name':1}, {'name':2}]
@@ -1914,20 +2245,22 @@ def gra():
         stop=time() -start
         conect=True
 
-        return render_template('2_gra.html',url_output=url_output,conect=conect,lang_bool=lang_bool,punkt_menu=punkt_menu,start_flag=start_flag,data=data,epdb=epdb,time_otvet= time_otvet,lang_switch=lang_switch)
+
+        return render_template('2_gra.html',bufer_network2=bufer_network2,data_grafik1=data_grafik1,data_grafik2=data_grafik2, perv=perv,url_output=url_output,conect=conect,lang_bool=lang_bool,punkt_menu=punkt_menu,start_flag=start_flag,data=data,epdb=epdb,time_otvet= time_otvet,lang_switch=lang_switch)
     except Exception as ex:
         print('!!!punkt_menu=',conect)
         conect=False
 
-        return render_template('2_gra.html',url_output=url_output,conect=conect,lang_bool=lang_bool,punkt_menu=punkt_menu,start_flag=start_flag,data=data,epdb=epdb,time_otvet= time_otvet,lang_switch=lang_switch)
+        return render_template('2_gra.html',bufer_network2=bufer_network2,data_grafik1=data_grafik1,data_grafik2=data_grafik2, perv=perv,url_output=url_output,conect=conect,lang_bool=lang_bool,punkt_menu=punkt_menu,start_flag=start_flag,data=data,epdb=epdb,time_otvet= time_otvet,lang_switch=lang_switch)
 
 
 
 @app.route('/data/<int:number>', methods=["GET", "POST"])
 def data(number):
     if request.method == 'POST' or request.method == 'GET':
+        global time_otvet
+
         if number == 0:
-            global time_otvet
             start = time()
             rr=req.get(f'http://{udras}/stats/eb')
             #print(rr.text)
@@ -1942,15 +2275,16 @@ def data(number):
 
             json_poputka=json.loads(eps_biar_graph)
             #print()
-            print('/start=',json_poputka)
+            print('/start=',json_poputka['stats']['time'])
             #print('spis=',json_poputka['stats']['graph'])
         #for it in json_poputka['stats']:
         #print(it.keys())
         #print('test_js=',json_poputka.keys())
 
             #eps=func_ochist(eps_biar_graph)
-            timer=random.randint(100,200000)
-            data=[timer,int(json_poputka['stats']['size']),int(json_poputka['stats']['vpercent']),int(time_otvet)]
+
+            timer= str(datetime.fromisoformat(json_poputka['stats']['time'])) #random.randint(100,200000)
+            data=[timer,int(json_poputka['stats']['size']),int(json_poputka['stats']['vpercent']),(time_otvet)]
             json_data = json.dumps(data)
 
             response = make_response(json_data)
@@ -1970,7 +2304,7 @@ def data(number):
 
             json_poputka=json.loads(eps_biar_graph)
 
-            timer=random.randint(100,200000)
+            timer= str(datetime.fromisoformat(json_poputka['stats']['time']))
             data=[timer,int(json_poputka['stats']['size']),int(json_poputka['stats']['vpercent']),int(time_otvet)]
             json_data = json.dumps(data)
             print(json_data)
