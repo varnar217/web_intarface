@@ -22,10 +22,7 @@
 
 <style>
 body {background-color: LightCyan;}
-   table {
-    width: 100%; /* Ширина таблицы */
-    border-collapse: collapse; /* Убираем двойные линии между ячейками */
-   }
+
    td, th {
     padding: 3px; /* Поля вокруг содержимого таблицы */
     border: 1px solid #000; /* Параметры рамки */
@@ -39,14 +36,7 @@ body {background-color: LightCyan;}
     color: #000000; /* Цвет текста при наведении */
    }
 
- input {
-    background-color: Transparent;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden;
-    outline:none;
-}
+
 
 </style>
 {% if lang_bool %}
@@ -71,12 +61,19 @@ body {background-color: LightCyan;}
     <!--<script src="http://code.highcharts.com/highcharts-more.js"></script>-->
    <!-- <script src="http://code.highcharts.com/modules/exporting.js"></script>-->
 
-   <input type = "number" value ={{time_otvet}} >
-     <form method="POST" action='/back_4'>
+   <input  value ={{time_otvet}} >
+     <form  method="POST" action='/back_4'>
    <p><button>{{punkt_menu[0]}}</button></p>
    </form>
-   <form method="POST" action='/izmen2'>
+
+   <form method="POST" action='/eps_epb/add' style="float:left">
+  <p><input  type = "submit" value = "+" name="zhach" /></p>
+  <input type="hidden" name="scenar_number" value="{{eps_number}}">
+
+  </form>
+   <form name="out" method="POST" action='/izmen2'>
  <p><button>{{punkt_menu[1]}}</button></p>
+
  <tr>
    <td><label for="velocity">{{punkt_menu[2]}}</label></td>
    <td><input name="eps_number"   value="{{number}}"></td>
@@ -89,75 +86,101 @@ body {background-color: LightCyan;}
    <td><label for="velocity">{{punkt_menu[4]}}  </label></td>
    <td><input name="eps_netw"   value="{{int_netw}}"></td>
  </tr>
-   <center>
 
-     <input type="button" onclick="add_eliment()" value="+">
+<center>
+
+ <input type="number" id="ch_id" name="znachenie" min="{{size_min}}"  value="{{size_min}}">
+</center>
 <!-- <form method="POST" action='/eb/nastroit/{{number}}'>
 
  <p><input type = "submit" value = "Add" /></p>
 
  </form>-->
-<input type="number" id="ch_id" name="znachenie" min="{{size_min}}" max="1000000000" value="{{size_min}}">
+ <center>
+         <h1>jitter </h1>
+    		  <label for="adres">timeup </label>
+    		  <input type="number" id="timeup_jitter" name="jitter_timeup" min="0" max="100000000" value="{{zagolovok[0]}}">
+          <label for="adres">timedown </label>
+          <input type="number" id="timedown_jitter" name="jitter_timedown" min="0" max="100000000" value="{{zagolovok[1]}}">
+         <label for="adres">value </label>
+       <input type="number" id="value_jitter" name="jitter_value" min="0" max="100000000" value="{{zagolovok[2]}}">
 
 
-<table name= "scenar_t" id="table-tx" width="650" >
+     		 <h1>burst </h1>
+         <label for="adres">timeup </label>
+          <input type="number" id="timeup_burst" name="burst_timeup" min="0" max="100000000" value="{{zagolovok[3]}}">
+
+         <label for="adres">timedown </label>
+          <input type="number" id="timedown_burst" name="burst_timedown" min="0" max="100000000" value="{{zagolovok[4]}}">
+
+
+
+
+  </center>
+<br>
+
+
+<table style=  "float:left" name= "scenar_t" id="table-tx" width="650" >
   {%for  j  in pcap_id%}
+       <tr>
+           <td><select name="scenar" style="width: 550px" required="required" >
+                 {%for  i  in string_pcap%}
 
-     <tr>
+                 {% if j.znach == i.key %}
+                 <option  name="td1"  value='{{i.key}}' SELECTED>{{i.string}}</option>
 
-         <td><select name="scenar" style="width: 550px" required="required" >
-               {%for  i  in string_pcap%}
+                 {% else %}
+                      <option name="td1"  value="{{ i.key }}" >{{ i.string}}</option>
+                  {% endif %}
 
-               {% if j.znach == i.key %}
-               <option  name="td1"  value='{{i.key}}' SELECTED>{{i.string}}</option>
-
-               {% else %}
-                    <option name="td1"  value="{{ i.key }}" >{{ i.string}}</option>
-                {% endif %}
-
-             {%endfor%}
-          </select></td>
-          <form method="POST" action='/eb/delete/{{j.znach}}'>
-
-               <td > <p><input  type = "submit" value = "удалить" name="{{j.znach}}" /></p></td>
-                   </form>
+               {%endfor%}
+            </select></td>
 
 
      </tr>
-
 
          {%endfor%}
 
 
 
       </table>
+    </form>
+
+   <!--</form>-->
+      <table   style=  "float:right">
+        {%for  j  in pcap_id%}
+
+           <tr>
+
+                <form method="POST" action='/eps_epb/delete/{{j.znach}}'>
+                  <input type="hidden" name="scenar_number" value="{{eps_number}}">
+
+                     <td > <p><input  type = "submit" value = "-" name="{{j.znach}}" /></p></td>
+                         </form>
+
+           </tr>
 
 
-      <tr>
-          <td><h1>jitter </h1></td>
-   		  <td><label for="adres">timeup </label></td>
-   		  <td><input type="number" id="timeup_jitter" name="jitter_timeup" min="0" max="100000000" value="{{zagolovok[0]}}"></td>
-         <td><label for="adres">timedown </label></td>
-         <td><input type="number" id="timedown_jitter" name="jitter_timedown" min="0" max="100000000" value="{{zagolovok[1]}}"></td>
-         <td><label for="adres">value </label></td>
-         <td><input type="number" id="value_jitter" name="jitter_value" min="0" max="100000000" value="{{zagolovok[2]}}"></td>
-   	  </tr>
-       <tr>
-    		  <td><h1>burst </h1></td>
-         <td><label for="adres">timeup </label></td>
-         <td><input type="number" id="timeup_burst" name="burst_timeup" min="0" max="100000000" value="{{zagolovok[3]}}"></td>
-
-         <td><label for="adres">timedown </label></td>
-         <td><input type="number" id="timedown_burst" name="burst_timedown" min="0" max="100000000" value="{{zagolovok[4]}}"></td>
-
-    	  </tr>
+               {%endfor%}
 
 
+            </table>
 
-   </center>
+          {%for  j  in pcap_id%}
+            <br>
+            <br>
+            <br>
+            <br>
+
+            {%endfor%}
 
 
+ <table>
+ <form name="out" method="POST" action='/izmen2'>
 
+
+</form>
+</table>
 
 </head>
 </html>

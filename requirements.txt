@@ -1,0 +1,10 @@
+Flask==1.1.1
+Flask-APScheduler==1.12.2
+flask-handlers==0.0.1
+Flask-Login==0.5.0
+Flask-SocketIO==4.2.1
+Jinja2==3.0.1
+requests==2.26.0
+requests-html==0.10.0
+sockets==1.0.0
+

@@ -123,10 +123,7 @@ changeButton(button) {
            justify-content: center;
        }
 
-       form
-       {
-           float:left;
-       }
+
 body {background-color: LightCyan;}
 
 ul.spisok_ver1{
@@ -137,16 +134,30 @@ padding: 3px;
  text-align: center;
  border: 1px solid blue;
 }
+.Center {
+    width:200px;
+    height:200px;
+    position: fixed;
+    background-color: blue;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -100px;
+}
+.buttonHolder{
+    text-align: center;
+}
+
     </style>
     <input  value ={{time_otvet}} >
 
     {% if lang_bool %}
-       <form action="/lengrth_2_gra" method = "POST">
+       <form  style=" float:left;"  action="/lengrth_2_gra" method = "POST">
 
        <input  class= "myButton"  style= " float: lefth; padding: 16px; background-color: darkblue; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "English" />
        </form>
     {% else %}
-    <form action="/lengrth_2_gra" method = "POST">
+    <form  style=" float:left;" action="/lengrth_2_gra" method = "POST">
 
        <input class= "myButton"  style="float: lefth; padding: 16px; background-color: darkblue; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "Русский" />
     </form>
@@ -156,13 +167,34 @@ padding: 3px;
 
        <input  class= "myButton"  style= "  padding: 16px; background-color: green; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" value="Connect"   />
     {% else %}
-    <script>
- setTimeout(function(){
-     window.location.href = '{{url_output}}';
- }, 1000);
+  <script>
+// setTimeout(function(){
+    // window.location.href = '{{url_output}}';
+ //}, 1000);
 </script>
+
        <input class= "myButton"  style=" padding: 16px; background-color: red; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" value="Disconnect" />
     {% endif %}
+
+
+    {% if conect %}
+
+    {% else %}
+
+        <div class="buttonHolder" >
+        <h1>Disconnect</h1>
+        <form     method="POST" action='/registr'>
+
+         <input     type = "submit" value = "registration" />
+      </form>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+
+    {% endif %}
+
     <div class="container-fluid">
 
         <div class="row">
@@ -183,7 +215,7 @@ padding: 3px;
 
 
     <center>
-  <form  method="POST" action='/grafik' class="form-container">
+  <form   style=" float:left;" method="POST" action='/grafik' class="form-container">
 
                   {%for  i  in data_grafik1%}
 
@@ -225,12 +257,12 @@ padding: 3px;
     <div class="test">
 
      {% if start_flag %}
-        <form action="/start" method = "POST">
+        <form  style=" float:left;" action="/start" method = "POST">
 
         <input  class= "myButton"  style= " float: lefth; padding: 16px; background-color: green; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "{{punkt_menu[0]}}" />
         </form>
      {% else %}
-     <form action="/start" method = "POST">
+     <form  style=" float:left;" action="/start" method = "POST">
 
         <input class= "myButton"  style="float: lefth; padding: 16px; background-color: red; color:aliceblue; border-radius: 4px;font-size: 12px" type = "submit" (click)="changeButton(button)" value = "{{punkt_menu[1]}}" />
      </form>
@@ -239,23 +271,23 @@ padding: 3px;
 
 
 
-     <form method="POST" action='/Menu'>
+     <form  style=" float:left;" method="POST" action='/Menu'>
 
 
     <input type = "submit" value = "{{punkt_menu[2]}}" />
 
      </form>
-     <form method="POST" action='/scenar'>
+     <form  style=" float:left;" method="POST" action='/scenar'>
 
       <p><input type = "submit" value = "{{punkt_menu[3]}}" />  </p>
 
      </form>
-     <form method="POST" action='/LIST_EPS'>
+     <form  style=" float:left;" method="POST" action='/LIST_EPS'>
 
       <p><input type = "submit" value = "{{punkt_menu[4]}}" />  </p>
 
      </form>
-     <form method="POST" action='/scenar_network'>
+     <form  style=" float:left;" method="POST" action='/scenar_network'>
 
       <p> <input type = "submit" value = "{{punkt_menu[5]}}" /></p>
 
@@ -482,6 +514,8 @@ padding: 3px;
 
     </script>
     {% endif %}
+
+
 
 
 </body>
